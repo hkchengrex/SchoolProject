@@ -4,13 +4,15 @@
 #include "base.h"
 #include "block.h"
 
+#include <QApplication>
 #include <QWidget>
 #include <QTimer>
 #include <QKeyEvent>
 
 //This file handle user input and game clock.
 
-#define SPEED_CONSTANT 5000
+#define SPEED_CONSTANT 500
+#define UPDATE_SPEED 30
 #define KEY_SPEED 50
 
 class GameController : public QWidget{
@@ -19,6 +21,7 @@ class GameController : public QWidget{
 private:
 	QTimer* tickTimer;
 	QTimer* keyTimer;
+	QTimer* viewTimer;
 	int pressKey;
 
 public: 
@@ -30,6 +33,7 @@ public:
 public slots:
 	void ticksEvent();
 	void keyHandler();
+	void updateView();
 };
 
 #endif

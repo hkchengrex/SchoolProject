@@ -75,4 +75,6 @@ void GameBoard::updateView(){
 
 	this->setPixmap(newPixmap);
 	//this->show();
+	this->update();
+	//qApp->processEvents();
 }

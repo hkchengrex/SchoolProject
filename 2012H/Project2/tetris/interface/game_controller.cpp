@@ -9,12 +9,15 @@ GameController::GameController(QWidget* parent)
 
 	tickTimer = new QTimer(this);
 	keyTimer = new QTimer(this);
+	viewTimer = new QTimer(this);
 
 	connect(tickTimer, SIGNAL(timeout()), this, SLOT(ticksEvent()));
 	connect(keyTimer, SIGNAL(timeout()), this, SLOT(keyHandler()));
+	connect(viewTimer, SIGNAL(timeout()), this, SLOT(updateView()));
 
 	tickTimer->start(SPEED_CONSTANT/(6));
 	keyTimer->start(KEY_SPEED);
+	viewTimer->start(UPDATE_SPEED);
 
 	grabKeyboard();
 }
@@ -25,9 +28,11 @@ GameController::~GameController(){
 
 void GameController::ticksEvent(){
 	GameManager::getManager()->updateGame();
-	GameWindow::getWindow()->updateView();
-
 	tickTimer->setInterval(SPEED_CONSTANT/(GameManager::getManager()->getLevel()+5));
+}
+
+void GameController::updateView(){
+	GameWindow::getWindow()->updateView();
 }
 
 void GameController::keyHandler(){
@@ -59,8 +64,7 @@ void GameController::keyHandler(){
 			GameManager::getManager()->rotateClockwise();
 		break;
 	}
-
-	GameWindow::getWindow()->updateView();
+	printf("Processed!\n");
 	pressKey = 0;
 }
 
@@ -75,4 +79,5 @@ void GameController::keyPressEvent(QKeyEvent *event){
 
 		pressKey = event->key();
 	}
+	printf("Pressed!\n");
 }

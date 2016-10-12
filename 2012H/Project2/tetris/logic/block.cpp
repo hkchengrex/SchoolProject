@@ -1,5 +1,6 @@
 #include "block.h"
 #include "game_manager.h"
+#include <stdio.h>
 
 //This file contains the implementation of the Block Class.
 
@@ -109,6 +110,7 @@ bool Block::dropBlock(){
 
 //Transfer all the blocks to the base
 void Block::mergeAndDelete(){
+	printf("Touched!\n");
 	Base* base = GameManager::getManager()->getBase();
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		base->acceptNewCube(cubes[i]);
