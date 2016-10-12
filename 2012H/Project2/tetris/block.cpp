@@ -7,9 +7,9 @@ Block::Block(BlockType type, int inX, int inY) : x(inX), y(inY){
 
 	//Create the center block
 	cubes[0] = new Cube(thisColor, inX, inY);
-	for (int i=1; i<CUBES_IN_EACH_BLOCK; i++){
+	for (int i=0; i<CUBES_IN_EACH_BLOCK-1; i++){
 		//Create other blocks with position shift
-		cubes[i] = new Cube(thisColor, inX + BlockInfo[type].cubes[i][0], inY + BlockInfo[type].cubes[i][1]);
+		cubes[i+1] = new Cube(thisColor, inX + BlockInfo[type].cubes[i][0], inY + BlockInfo[type].cubes[i][1]);
 	}
 }
 
@@ -20,7 +20,7 @@ Block::~Block(){
 	}
 }
 
-bool Block::checkValid(int x, int y){
+bool Block::isPosValid(int x, int y){
 	if (x < 0 || y < 0 || x >= BASE_WIDTH || y >= BASE_HEIGHT){
 		//Check if out of bounds
 		return false;
@@ -51,7 +51,7 @@ bool Block::applyRotation(int dir){
 
 	bool isValid = true;
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
-		if (!checkValid(newPos[i][0], newPos[i][1])){
+		if (!isPosValid(newPos[i][0], newPos[i][1])){
 			isValid = false;
 		}
 	}
@@ -74,21 +74,44 @@ bool Block::rotateAntiClockwise(){
 	return applyRotation(-1);
 }
 
-bool Block::dropBlock(){
+bool Block::applyTranslate(int shiftX, int shiftY){
 	bool isValid = true;
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
-		if (!checkValid(cubes[i]->getX(), cubes[i]->getY() - 1)){
+		if (!isPosValid(cubes[i]->getX() + shiftX, cubes[i]->getY() + shiftY)){
 			isValid = false;
 		}
 	}
 
 	if (isValid){
-		y--;
+		this->x += shiftX;
+		this->y += shiftY;
 		for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
-			cubes[i]->dropY();
+			cubes[i]->setXY(cubes[i]->getX() + shiftX, cubes[i]->getY() + shiftY);
 		}
 		return true;
 	}else{
 		return false;
 	}
+}
+
+bool Block::moveRight(){
+	return applyTranslate(1, 0);
+}
+
+bool Block::moveLeft(){
+	return applyTranslate(-1, 0);
+}
+
+bool Block::dropBlock(){
+	return applyTranslate(0, -1);
+}
+
+//Transfer all the blocks to the base
+void Block::mergeAndDelete(){
+	Base* base = GameManager.getManager()->getBase();
+	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
+		base->acceptNewCube(cubes[i]);
+		cubes[i] = NULL;
+	}
+	delete this;
 }

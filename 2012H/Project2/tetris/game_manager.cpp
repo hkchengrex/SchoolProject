@@ -1,6 +1,6 @@
 #include "game_manager.h"
 
-GameManager::GameManager() : base(), score(0), level(0){
+GameManager::GameManager() : base(), score(0), level(1){
 	srand (time(NULL));
 }
 
@@ -22,7 +22,15 @@ void GameManager::genNextBlock(){
 }
 
 void GameManager::updateGame(){
+	//If dropping is not valid -> Ground touched
+	if (!dropBlock()){
+		currBlock->mergeAndDelete();
+		genNextBlock();
+	}
+
 	int cleared = base->clearFullLines();
+	score += cleared*10;
+	level = score/50;
 }
 
 //Respond to user input

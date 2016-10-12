@@ -46,10 +46,12 @@ private:
 	Cube* cubes[CUBES_IN_EACH_BLOCK];
 
 	bool applyRotation(int dir);
+	bool applyTranslate(int shiftX, int shiftY);
 public:
 	Block(BlockType type, int x, int y);
 	~Block();
 
+	//Movement functions, return false if motion not valid
 	bool moveRight();
 	bool moveLeft();
 	bool rotateClockwise();
@@ -57,8 +59,8 @@ public:
 	bool dropBlock();
 
 	//Merge this block with the base
-	void merge();
-	static bool checkValid(int x, int y);
+	void mergeAndDelete();
+	static bool isPosValid(int x, int y);
 };
 
 #endif

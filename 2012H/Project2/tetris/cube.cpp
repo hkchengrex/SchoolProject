@@ -31,6 +31,3 @@ void Cube::setXY(int newX, int newY){
 	setY(newY);
 }
 
-void Cube::dropY(){
-	setY(getY()-1);
-}

@@ -8,7 +8,8 @@ GameController::GameController(QWidget* parent = 0){
 }
 
 GameController::ticksEvent(){
-	GameManager.getManager()->dropBlock();
+	GameManager.getManager()->updateGame();
+	timer->setInterval(5000/(GameManager.getManager()->getLevel()+5));
 }
 
 GameController::keyPressEvent(QKeyEvent *event){

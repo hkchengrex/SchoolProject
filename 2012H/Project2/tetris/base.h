@@ -19,6 +19,8 @@ public:
 
 	bool isOccupied(int x, int y) const;
 	int clearFullLines() const;
+	//Accept a new cube from a dropped block
+	void acceptNewCube(Cube* cube);
 }
 
 #endif

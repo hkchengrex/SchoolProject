@@ -27,7 +27,6 @@ public:
 	void setX(int newX);
 	void setY(int newY);
 	void setXY(int newX, int newY);
-	void dropY();
 };
 
 #endif

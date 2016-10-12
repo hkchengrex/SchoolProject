@@ -58,3 +58,7 @@ int Base::clearFullLines() const{
 	}
 	return counter;
 }
+
+void Base::acceptNewCube(Cube* cube){
+	cubes[cube->getX()][cube->getY()] = cube;
+}
