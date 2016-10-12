@@ -6,6 +6,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QKeyEvent>
 
 //This file handle user input and game clock.
 
@@ -21,7 +22,10 @@ public:
 	GameController(QWidget* parent = 0);
 	~GameController();
 
-	ticksEvent();
-}
+	void keyPressEvent(QKeyEvent *event);
+
+public slots:
+	void ticksEvent();
+};
 
 #endif

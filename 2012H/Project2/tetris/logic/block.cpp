@@ -1,15 +1,16 @@
 #include "block.h"
+#include "game_manager.h"
 
 //This file contains the implementation of the Block Class.
 
 Block::Block(BlockType type, int inX, int inY) : x(inX), y(inY){
-	CubeColor thisColor = BlockInfo[type].color;
+	CubeColor thisColor = BLOCK_INFO[type].color;
 
 	//Create the center block
 	cubes[0] = new Cube(thisColor, inX, inY);
 	for (int i=0; i<CUBES_IN_EACH_BLOCK-1; i++){
 		//Create other blocks with position shift
-		cubes[i+1] = new Cube(thisColor, inX + BlockInfo[type].cubes[i][0], inY + BlockInfo[type].cubes[i][1]);
+		cubes[i+1] = new Cube(thisColor, inX + BLOCK_INFO[type].cubes[i][0], inY + BLOCK_INFO[type].cubes[i][1]);
 	}
 }
 
@@ -21,12 +22,12 @@ Block::~Block(){
 }
 
 bool Block::isPosValid(int x, int y){
-	if (x < 0 || y < 0 || x >= BASE_WIDTH || y >= BASE_HEIGHT){
+	if (x < 0 || y > 0 || x >= BASE_WIDTH || y <= -BASE_HEIGHT){
 		//Check if out of bounds
 		return false;
 	}else{
 		//Check if occupied by the base
-		return !GameManager.getManager()->getBase()->isOccupied(x, y);
+		return !GameManager::getManager()->getBase()->isOccupied(x, y);
 	}
 }
 
@@ -38,7 +39,7 @@ bool Block::applyRotation(int dir){
 	int newPos[CUBES_IN_EACH_BLOCK][2]; //New position
 
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
-		oldShift[i-][0] = cubes[i]->getX() - x;
+		oldShift[i][0] = cubes[i]->getX() - x;
 		oldShift[i][1] = cubes[i]->getY() - y;
 
 		//Apply rotational matrix
@@ -108,10 +109,14 @@ bool Block::dropBlock(){
 
 //Transfer all the blocks to the base
 void Block::mergeAndDelete(){
-	Base* base = GameManager.getManager()->getBase();
+	Base* base = GameManager::getManager()->getBase();
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		base->acceptNewCube(cubes[i]);
 		cubes[i] = NULL;
 	}
 	delete this;
+}
+
+Cube* Block::getCube(int id) const{
+	return cubes[id];
 }

@@ -16,8 +16,8 @@ enum CubeColor{
 //Cube represent one square unit in the game.
 class Cube{
 private:
-	int x, y;
 	const CubeColor mColor;
+	int x, y;
 public:
 	Cube(CubeColor inColor, int inX, int inY);
 

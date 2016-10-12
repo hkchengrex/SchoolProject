@@ -2,16 +2,21 @@
 #define _GAME_MANAGER_H
 
 #include <stdlib.h>
+#include <stddef.h>
 #include <time.h>
+
 #include "base.h"
 #include "block.h"
+#include "game_board.h"
 
 //This is a class containing game-related information
 class GameManager{
 private:
+	Base* base;
+	
 	int score, level;
-	Block* currBlock, nextBlock;
-	const Base base;
+	Block* currBlock, *nextBlock;
+
 public:
 	GameManager();
 	int getScore() const;
@@ -28,8 +33,11 @@ public:
 	bool rotateAntiClockwise();
 	bool dropBlock();
 
+	Block* getCurrBlock();
+	Block* getNextBlock();
+
 	//A unique game manager, can be accessed anywhere
-	static GameManager* getManager() const;
-}
+	static GameManager* getManager();
+};
 
 #endif

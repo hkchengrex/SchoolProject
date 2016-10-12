@@ -1,7 +1,9 @@
 #include "game_manager.h"
 
-GameManager::GameManager() : base(), score(0), level(1){
+GameManager::GameManager() : base(new Base()), score(0), level(1){
 	srand (time(NULL));
+	genNextBlock();
+	genNextBlock();
 }
 
 int GameManager::getScore() const{
@@ -13,12 +15,12 @@ int GameManager::getLevel() const{
 }
 
 Base* GameManager::getBase() const{
-	return &base;
+	return base;
 }
 
 void GameManager::genNextBlock(){
 	currBlock = nextBlock;
-	nextBlock = new Block((BlockType)rand()%NUMBER_OF_BLOCK_TYPES, BOARD_WIDTH/2, 3);
+	nextBlock = new Block(static_cast<BlockType>(rand()%NUMBER_OF_BLOCK_TYPES), BOARD_WIDTH/2, -3);
 }
 
 void GameManager::updateGame(){
@@ -54,8 +56,15 @@ bool GameManager::dropBlock(){
 	return currBlock->dropBlock();
 }
 
+Block* GameManager::getCurrBlock(){
+	return currBlock;
+}
 
-GameManager* GameManager::getManager() const{
+Block* GameManager::getNextBlock(){
+	return nextBlock;
+}
+
+GameManager* GameManager::getManager(){
 	static GameManager gameManager;
 	return &gameManager;
 }

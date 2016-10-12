@@ -2,6 +2,7 @@
 #define _BASE_H
 
 #include <stdbool.h>
+#include <stddef.h>
 #include "cube.h"
 
 //This file contains the definition of the Base Class.
@@ -18,9 +19,9 @@ public:
 	~Base();
 
 	bool isOccupied(int x, int y) const;
-	int clearFullLines() const;
+	int clearFullLines();
 	//Accept a new cube from a dropped block
 	void acceptNewCube(Cube* cube);
-}
+};
 
 #endif

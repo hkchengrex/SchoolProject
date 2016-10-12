@@ -1,9 +1,9 @@
 #ifndef _BLOCK_H
 #define _BLOCK_H
 
+#include <stddef.h>
 #include "cube.h"
 #include "base.h"
-#include "game_manager.h"
 
 //This file contains the definition of the Block Class.
 
@@ -28,15 +28,15 @@ struct BlockInfo{
 	int cubes[CUBES_IN_EACH_BLOCK-1][2];
 };
 
-const BlockInfo[NUMBER_OF_BLOCK_TYPES] = {
+const BlockInfo BLOCK_INFO[NUMBER_OF_BLOCK_TYPES] = {
 	{COLOR_RED, {{0, 1}, {0, 2}, {0, -1}}}, 		//I type
-	{COLOR_GREEN, {{-1, 0}, {0, -1}, {-1, -1}}} 	//O type
-	{COLOR_BLUE, {{0, 1}, {-1, 0}, {1, -1}}} 		//S type
-	{COLOR_YELLOW, {{0, -1}, {1, 0}, {1, 1}}} 		//Z type
-	{COLOR_CYAN, {{0, 1}, {0, -1}, {1, -1}}} 		//L type
-	{COLOR_ORANGE, {{0, 1}, {0, -1}, {-1, -1}}} 	//J type
-	{COLOR_PURPLE, {{0, 1}, {-1, 0}, {1, 0}}} 		//T type
-}
+	{COLOR_GREEN, {{-1, 0}, {0, -1}, {-1, -1}}}, 	//O type
+	{COLOR_BLUE, {{0, 1}, {1, 0}, {1, -1}}}, 		//S type
+	{COLOR_YELLOW, {{0, -1}, {1, 0}, {1, 1}}}, 		//Z type
+	{COLOR_CYAN, {{0, 1}, {0, -1}, {1, -1}}}, 		//L type
+	{COLOR_ORANGE, {{0, 1}, {0, -1}, {-1, -1}}}, 	//J type
+	{COLOR_PURPLE, {{0, 1}, {-1, 0}, {1, 0}}}, 		//T type
+};
 
 //Block is a class containing some Cube.
 //Typically a falling game object, this class handles the rotation and falling.
@@ -60,6 +60,9 @@ public:
 
 	//Merge this block with the base
 	void mergeAndDelete();
+
+	Cube* getCube(int id) const;
+
 	static bool isPosValid(int x, int y);
 };
 
