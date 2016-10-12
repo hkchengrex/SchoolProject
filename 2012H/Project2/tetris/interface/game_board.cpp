@@ -64,7 +64,6 @@ void GameBoard::updateView(){
 	Base* base = GameManager::getManager()->getBase();
 	for (int i=0; i<BASE_WIDTH; i++){
 		for (int k=0; k>-BASE_HEIGHT; k--){
-			//printf("%d %d\n", i, k);
 			if (base->isOccupied(i, k)){
 				Cube* drawingCube = base->getCube(i, k);
 				QColor color = getColor(drawingCube->getColor());

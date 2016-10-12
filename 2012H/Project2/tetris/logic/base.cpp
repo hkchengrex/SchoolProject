@@ -1,5 +1,4 @@
 #include "base.h"
-#include <stdio.h>
 
 //This file contains the implementation of the Base Class.
 
@@ -25,7 +24,6 @@ bool Base::isOccupied(int x, int y) const{
 }
 
 Cube* Base::getCube(int x, int y) const{
-	printf("Get: %d %d\n", x, BASE_HEIGHT+y-1);
 	return cubes[x][BASE_HEIGHT+y-1];
 }
 

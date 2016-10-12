@@ -2,11 +2,20 @@
 #include "game_manager.h"
 #include "game_board.h"
 #include "game_window.h"
+#include <stdio.h>
 
-GameController::GameController(QWidget* parent):QWidget(parent){
-	timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(ticksEvent()));
-	timer->start(DEFALUT_SPEED);
+GameController::GameController(QWidget* parent)
+:QWidget(parent), pressKey(0){
+
+	tickTimer = new QTimer(this);
+	keyTimer = new QTimer(this);
+
+	connect(tickTimer, SIGNAL(timeout()), this, SLOT(ticksEvent()));
+	connect(keyTimer, SIGNAL(timeout()), this, SLOT(keyHandler()));
+
+	tickTimer->start(SPEED_CONSTANT/(6));
+	keyTimer->start(KEY_SPEED);
+
 	grabKeyboard();
 }
 
@@ -18,11 +27,15 @@ void GameController::ticksEvent(){
 	GameManager::getManager()->updateGame();
 	GameWindow::getWindow()->updateView();
 
-	timer->setInterval(5000/(GameManager::getManager()->getLevel()+5));
+	tickTimer->setInterval(SPEED_CONSTANT/(GameManager::getManager()->getLevel()+5));
 }
 
-void GameController::keyPressEvent(QKeyEvent *event){
-	switch(event->key()){
+void GameController::keyHandler(){
+	if (pressKey == 0){
+		return;
+	}
+
+	switch(pressKey){
 		case Qt::Key_Up:
 		break;
 
@@ -46,5 +59,20 @@ void GameController::keyPressEvent(QKeyEvent *event){
 			GameManager::getManager()->rotateClockwise();
 		break;
 	}
+
 	GameWindow::getWindow()->updateView();
+	pressKey = 0;
+}
+
+void GameController::keyPressEvent(QKeyEvent *event){
+	switch(event->key()){
+		case Qt::Key_Up:
+		case Qt::Key_Down:
+		case Qt::Key_Left:
+		case Qt::Key_Right:
+		case Qt::Key_Z:
+		case Qt::Key_X:
+
+		pressKey = event->key();
+	}
 }
