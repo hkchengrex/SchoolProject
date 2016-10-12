@@ -21,7 +21,12 @@ Base::~Base(){
 
 bool Base::isOccupied(int x, int y) const{
 	//If not NULL, then there is something
-	return (cubes[x][y] != NULL);
+	return (cubes[x][BASE_HEIGHT+y-1] != NULL);
+}
+
+Cube* Base::getCube(int x, int y) const{
+	printf("Get: %d %d\n", x, BASE_HEIGHT+y-1);
+	return cubes[x][BASE_HEIGHT+y-1];
 }
 
 int Base::clearFullLines(){
@@ -49,6 +54,9 @@ int Base::clearFullLines(){
 			for (int j=i; j<BASE_HEIGHT-1; j++){
 				for (int k=0; k<BASE_WIDTH; k++){
 					cubes[k][j] = cubes[k][j+1];
+					if (cubes[k][j] != NULL){
+						cubes[k][j]->setY(cubes[k][j]->getY()-1);
+					}
 				}
 			}
 			//Set top row all NULL
@@ -58,9 +66,9 @@ int Base::clearFullLines(){
 
 		}
 	}
-	return 0;
+	return counter;
 }
 
 void Base::acceptNewCube(Cube* cube){
-	cubes[cube->getX()][cube->getY()] = cube;
+	cubes[cube->getX()][BASE_HEIGHT+cube->getY()-1] = cube;
 }

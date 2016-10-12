@@ -56,11 +56,11 @@ bool GameManager::dropBlock(){
 	return currBlock->dropBlock();
 }
 
-Block* GameManager::getCurrBlock(){
+Block* GameManager::getCurrBlock() const{
 	return currBlock;
 }
 
-Block* GameManager::getNextBlock(){
+Block* GameManager::getNextBlock() const{
 	return nextBlock;
 }
 

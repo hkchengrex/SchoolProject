@@ -33,8 +33,8 @@ public:
 	bool rotateAntiClockwise();
 	bool dropBlock();
 
-	Block* getCurrBlock();
-	Block* getNextBlock();
+	Block* getCurrBlock() const;
+	Block* getNextBlock() const;
 
 	//A unique game manager, can be accessed anywhere
 	static GameManager* getManager();

@@ -19,6 +19,7 @@ public:
 	~Base();
 
 	bool isOccupied(int x, int y) const;
+	Cube* getCube(int x, int y) const;
 	int clearFullLines();
 	//Accept a new cube from a dropped block
 	void acceptNewCube(Cube* cube);
