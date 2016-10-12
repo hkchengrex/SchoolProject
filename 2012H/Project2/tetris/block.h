@@ -50,9 +50,14 @@ public:
 	Block(BlockType type, int x, int y);
 	~Block();
 
+	bool moveRight();
+	bool moveLeft();
 	bool rotateClockwise();
 	bool rotateAntiClockwise();
 	bool dropBlock();
+
+	//Merge this block with the base
+	void merge();
 	static bool checkValid(int x, int y);
 };
 

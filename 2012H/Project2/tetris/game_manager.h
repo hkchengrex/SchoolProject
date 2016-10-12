@@ -19,6 +19,14 @@ public:
 	Base* getBase() const;
 
 	void genNextBlock();
+	void updateGame();
+
+	//Respond to user input
+	bool moveRight();
+	bool moveLeft();
+	bool rotateClockwise();
+	bool rotateAntiClockwise();
+	bool dropBlock();
 
 	//A unique game manager, can be accessed anywhere
 	static GameManager* getManager() const;
