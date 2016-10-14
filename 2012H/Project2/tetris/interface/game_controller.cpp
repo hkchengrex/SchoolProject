@@ -48,11 +48,11 @@ void GameController::keyPressEvent(QKeyEvent *event){
 		break;
 
 		case Qt::Key_Z:
-			GameManager::getManager()->rotateAntiClockwise();
+			GameManager::getManager()->rotateClockwise();
 		break;
 
 		case Qt::Key_X:
-			GameManager::getManager()->rotateClockwise();
+			GameManager::getManager()->rotateAntiClockwise();
 		break;
 	}
 	if (GameManager::getManager()->isStarted()){

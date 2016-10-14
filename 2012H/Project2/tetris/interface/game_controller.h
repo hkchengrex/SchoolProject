@@ -12,6 +12,7 @@
 //This file handle user input and game clock.
 
 #define SPEED_CONSTANT 1000
+#define KEY_SPEED 10
 
 //This is a widget attached to main window to listen to user input.
 class GameController : public QWidget{
@@ -19,6 +20,7 @@ class GameController : public QWidget{
 
 private:
 	QTimer* tickTimer;
+	QTimer* keyTime;
 
 public: 
 	GameController(QWidget* parent = 0);

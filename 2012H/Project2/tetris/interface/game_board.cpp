@@ -26,6 +26,9 @@ void GameBoard::updateView(){
 		for (int k=0; k>-BASE_HEIGHT; k--){
 			if (base->isOccupied(i, k)){
 				Cube* drawingCube = base->getCube(i, k);
+				if (drawingCube == NULL){
+					continue;
+				}
 				QColor color = resolveColor(drawingCube->getColor());
 
 				painter.fillRect(drawingCube->getX()*20+1, drawingCube->getY()*-20+1, 19, 19, color);
@@ -40,6 +43,9 @@ void GameBoard::updateView(){
 	}
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		Cube* drawingCube = currBlock->getCube(i);
+		if (drawingCube == NULL){
+			continue;
+		}
 		QColor color = resolveColor(drawingCube->getColor());
 
 		painter.fillRect(drawingCube->getX()*20+1, drawingCube->getY()*-20+1, 19, 19, color);

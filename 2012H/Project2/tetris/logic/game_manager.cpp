@@ -67,7 +67,7 @@ void GameManager::startGame(){
 //Transfer all these commands to the currBlock
 
 bool GameManager::moveRight(){
-	if (gameStarted){
+	if (gameStarted && currBlock!=NULL){
 		return currBlock->moveRight();
 	}else{
 		return false;
@@ -75,7 +75,7 @@ bool GameManager::moveRight(){
 }
 
 bool GameManager::moveLeft(){
-	if (gameStarted){
+	if (gameStarted && currBlock!=NULL){
 		return currBlock->moveLeft();
 	}else{
 		return false;
@@ -83,7 +83,7 @@ bool GameManager::moveLeft(){
 }
 
 bool GameManager::rotateClockwise(){
-	if (gameStarted){
+	if (gameStarted && currBlock!=NULL){
 		return currBlock->rotateClockwise();
 	}else{
 		return false;
@@ -91,7 +91,7 @@ bool GameManager::rotateClockwise(){
 }
 
 bool GameManager::rotateAntiClockwise(){
-	if (gameStarted){
+	if (gameStarted && currBlock!=NULL){
 		return currBlock->rotateAntiClockwise();
 	}else{
 		return false;
@@ -99,7 +99,7 @@ bool GameManager::rotateAntiClockwise(){
 }	
 
 bool GameManager::dropBlock(){
-	if (gameStarted){
+	if (gameStarted && currBlock!=NULL){
 		if (!currBlock->dropBlock()){
 			//If dropping is not valid -> Ground touched
 			currBlock->mergeAndDelete();

@@ -32,6 +32,9 @@ void PreviewWindow::updateView(){
 	QPainter painter(&newPixmap);
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		Cube* drawingCube = nextBlock->getCube(i);
+		if (drawingCube == NULL){
+			continue;
+		}
 		QColor color = resolveColor(drawingCube->getColor());
 
 		painter.fillRect((drawingCube->getX() - nextBlock->getX() + 1)*20+1,

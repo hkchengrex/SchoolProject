@@ -40,7 +40,7 @@ bool Block::isPosValid(int x, int y){
 	}
 }
 
-//-1 for clockwise, 1 for anticlockwise
+//-1 for anticlockwise, 1 for clockwise
 bool Block::applyRotation(int dir){
 	//Calculate new position
 	int oldShift[CUBES_IN_EACH_BLOCK][2]; //Original shift from center
@@ -78,11 +78,11 @@ bool Block::applyRotation(int dir){
 }
 
 bool Block::rotateClockwise(){
-	return applyRotation(-1);
+	return applyRotation(1);
 }
 
 bool Block::rotateAntiClockwise(){
-	return applyRotation(1);
+	return applyRotation(-1);
 }
 
 bool Block::applyTranslate(int shiftX, int shiftY){
