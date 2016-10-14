@@ -32,6 +32,7 @@ public:
 
 	//Respond to user input
 	void startGame();
+	//Transfer all these commands to the currBlock
 	bool moveRight();
 	bool moveLeft();
 	bool rotateClockwise();
@@ -41,7 +42,7 @@ public:
 	Block* getCurrBlock() const;
 	Block* getNextBlock() const;
 
-	//A unique game manager, can be accessed anywhere
+	//Static method return singleton
 	static GameManager* getManager();
 };
 

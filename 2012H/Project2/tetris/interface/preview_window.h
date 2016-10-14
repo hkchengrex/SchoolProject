@@ -10,6 +10,7 @@
 
 #include "block.h"
 
+//This class is for the UI of the preview window to see the incoming block
 class PreviewWindow : public QLabel{
 	Q_OBJECT
 
@@ -18,8 +19,8 @@ private:
 
 public:
 	PreviewWindow(QWidget * parent = 0, Qt::WindowFlags f = 0);
-	~PreviewWindow();
 
+	//Updates its UI
 	void updateView();
 };
 

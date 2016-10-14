@@ -13,6 +13,7 @@
 
 #define SPEED_CONSTANT 1000
 
+//This is a widget attached to main window to listen to user input.
 class GameController : public QWidget{
 	Q_OBJECT
 
@@ -25,7 +26,7 @@ public:
 
 	void keyPressEvent(QKeyEvent *event);
 
-public slots:
+protected slots:
 	void ticksEvent();
 };
 

@@ -8,25 +8,28 @@ GameController::GameController(QWidget* parent)
 :QWidget(parent), tickTimer(new QTimer(this)){
 
 	connect(tickTimer, SIGNAL(timeout()), this, SLOT(ticksEvent()));
+	tickTimer->start(SPEED_CONSTANT);
 
-	tickTimer->start(SPEED_CONSTANT/(6));
-
+	//Grab the keyboard attention
 	grabKeyboard();
 }
 
 GameController::~GameController(){
-	delete tickTimer;	
+	//delete tickTimer; //Handled by QT
+	//tickTimer = NULL;
 }
 
 void GameController::ticksEvent(){
+	//The main heartbeat of the game
 	GameManager::getManager()->updateGame();
 	if (GameManager::getManager()->isStarted()){
 		GameWindow::getWindow()->updateView();
 	}
-	tickTimer->setInterval(1000-(GameManager::getManager()->getLevel()-1)*100);
+	tickTimer->setInterval(SPEED_CONSTANT-(GameManager::getManager()->getLevel()-1)*100);
 }
 
 void GameController::keyPressEvent(QKeyEvent *event){
+	//Read the keys and act
 	switch(event->key()){
 		case Qt::Key_Up:
 			GameManager::getManager()->startGame();

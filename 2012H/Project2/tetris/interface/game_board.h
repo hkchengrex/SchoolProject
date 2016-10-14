@@ -16,6 +16,7 @@
 #define BOARD_WIDTH BASE_WIDTH
 #define BOARD_HEIGHT BASE_HEIGHT
 
+//This class is for the UI of the game board
 class GameBoard : public QLabel{
 	Q_OBJECT
 
@@ -24,8 +25,8 @@ private:
 
 public:
 	GameBoard(QWidget * parent = 0, Qt::WindowFlags f = 0);
-	~GameBoard();
 
+	//Update its UI
 	void updateView();
 };
 

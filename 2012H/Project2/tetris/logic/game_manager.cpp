@@ -1,15 +1,20 @@
 #include "game_manager.h"
+#include <stdio.h>
 
 GameManager::GameManager() : base(new Base()), score(0), level(1), gameStarted(false){
 	srand (time(NULL));
+	//Immediate generate first and next block
 	genNextBlock();
 	genNextBlock();
 }
 
 GameManager::~GameManager(){
 	delete currBlock;
+	currBlock = NULL;
 	delete nextBlock;
+	nextBlock = NULL;
 	delete base;
+	base = NULL;
 }
 
 int GameManager::getScore() const{
@@ -29,30 +34,32 @@ bool GameManager::isStarted() const{
 }
 
 void GameManager::genNextBlock(){
+	//Generate a new block
 	currBlock = nextBlock;
 	nextBlock = new Block(static_cast<BlockType>(rand()%NUMBER_OF_BLOCK_TYPES), BOARD_WIDTH/2, -3);
 }
 
 void GameManager::updateGame(){
 	if (gameStarted){
-		//If dropping is not valid -> Ground touched
 		if (!dropBlock()){
+			//If dropping is not valid -> Ground touched
 			currBlock->mergeAndDelete();
-			genNextBlock();
+			int isLost = base->checkIsLost();
+			if (isLost){
+				//If lost, no longer update game
+				gameStarted = false;
+			}else{
+				//Create next block
+				genNextBlock();
+				int cleared = base->clearFullLines();
+				score += cleared*cleared*10;
+				level = score/100 + 1;
+				//Cap the max. level
+				if (level>=10){
+					level = 10;
+				}
+			}
 		}
-
-		int cleared = base->clearFullLines();
-		score += cleared*cleared*10;
-		level = score/100 + 1;
-		//Cap the max. level
-		if (level>=10){
-			level = 10;
-		}
-	}
-
-	int isLost = base->checkIsLost();
-	if (isLost){
-		gameStarted = false;
 	}
 }
 
@@ -62,16 +69,22 @@ void GameManager::startGame(){
 		return;
 	}
 
+	//Get ready for next game
 	gameStarted = true;
-	delete currBlock;
+	currBlock = NULL;
+	nextBlock = NULL;
 	delete nextBlock;
+	delete currBlock;
 	delete base;
+	base = NULL;
 	genNextBlock();
 	genNextBlock();
 	base = new Base();
 	score = 0;
 	level = 1;
 }
+
+//Transfer all these commands to the currBlock
 
 bool GameManager::moveRight(){
 	return currBlock->moveRight();
@@ -101,7 +114,8 @@ Block* GameManager::getNextBlock() const{
 	return nextBlock;
 }
 
+//Static method return singleton
 GameManager* GameManager::getManager(){
-	static GameManager gameManager;
-	return &gameManager;
+	static GameManager* gameManager = new GameManager;
+	return gameManager;
 }

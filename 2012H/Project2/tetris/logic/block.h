@@ -45,7 +45,9 @@ private:
 	int x, y; //Position of the center block
 	Cube* cubes[CUBES_IN_EACH_BLOCK];
 
+	//-1 for clockwise, 1 for anticlockwise
 	bool applyRotation(int dir);
+	//+ve x go right, -ve y go down
 	bool applyTranslate(int shiftX, int shiftY);
 public:
 	Block(BlockType type, int x, int y);
@@ -64,6 +66,7 @@ public:
 	//Merge this block with the base
 	void mergeAndDelete();
 
+	//Return a cube
 	Cube* getCube(int id) const;
 
 	static bool isPosValid(int x, int y);

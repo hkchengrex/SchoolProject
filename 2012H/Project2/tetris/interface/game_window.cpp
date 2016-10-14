@@ -7,10 +7,11 @@ GameWindow::GameWindow(QWidget * parent, Qt::WindowFlags flags)
 	previewWindow(new PreviewWindow()),
 	levelLabel(new QLabel()),
 	scoreLabel(new QLabel()),
-	gameController(new GameController()){
+	gameController(new GameController(this)){
 
-	QWidget *dummy = new QWidget();
-	QHBoxLayout *hBoxLayout = new QHBoxLayout();
+	//Setup the layout
+	QWidget *dummy = new QWidget(this);
+	QHBoxLayout *hBoxLayout = new QHBoxLayout(dummy);
 	QVBoxLayout *leftVLayout = new QVBoxLayout();
 	QVBoxLayout *rightVLayout = new QVBoxLayout();
 
@@ -24,20 +25,20 @@ GameWindow::GameWindow(QWidget * parent, Qt::WindowFlags flags)
 	hBoxLayout->addLayout(leftVLayout);
 	hBoxLayout->addLayout(rightVLayout);
 
-	dummy->setLayout(hBoxLayout);
-
 	setCentralWidget(dummy);
 }
 
 GameWindow::~GameWindow(){
-	delete gameBoard;
-	delete previewWindow;
-	delete scoreLabel;
-	delete levelLabel;
-	delete gameController;
+	//Handled by QT
+	//delete gameBoard;
+	//delete previewWindow;
+	//delete scoreLabel;
+	//delete levelLabel;
+	//delete gameController;
 }
 
 void GameWindow::updateView(){
+	//Update all the display
 	gameBoard->updateView();
 	previewWindow->updateView();
 
@@ -51,7 +52,8 @@ void GameWindow::updateView(){
 	scoreLabel->setText(scoreString);
 }
 
+//Get a singleton window
 GameWindow* GameWindow::getWindow(){
-	static GameWindow gameWindow;
-	return &gameWindow;
+	static GameWindow* gameWindow= new GameWindow;
+	return gameWindow;
 }

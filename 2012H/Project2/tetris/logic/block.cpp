@@ -18,6 +18,7 @@ Block::~Block(){
 	//Delete all owned blocks
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		delete cubes[i]; //Delete NULL pointer is OK
+		cubes[i] = NULL; //Just in case
 	}
 }
 
@@ -65,6 +66,7 @@ bool Block::applyRotation(int dir){
 		}
 	}
 
+	//Inform the child cubes
 	if (isValid){
 		for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 			cubes[i]->setXY(newPos[i][0], newPos[i][1]);
@@ -85,6 +87,7 @@ bool Block::rotateAntiClockwise(){
 
 bool Block::applyTranslate(int shiftX, int shiftY){
 	bool isValid = true;
+	//Check whether the motion is valid
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		if (!isPosValid(cubes[i]->getX() + shiftX, cubes[i]->getY() + shiftY)){
 			isValid = false;
@@ -94,6 +97,7 @@ bool Block::applyTranslate(int shiftX, int shiftY){
 	if (isValid){
 		this->x += shiftX;
 		this->y += shiftY;
+		//Inform the child cubes
 		for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 			cubes[i]->setXY(cubes[i]->getX() + shiftX, cubes[i]->getY() + shiftY);
 		}
@@ -125,6 +129,7 @@ void Block::mergeAndDelete(){
 	delete this;
 }
 
+//Return a cube
 Cube* Block::getCube(int id) const{
 	return cubes[id];
 }

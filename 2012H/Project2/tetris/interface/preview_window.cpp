@@ -4,15 +4,12 @@
 PreviewWindow::PreviewWindow(QWidget * parent, Qt::WindowFlags f)
  : QLabel(parent, f), pixmap(){
 
+ 	//Load the background image
  	QImage image;
  	image.load("res/preview.jpg");
 
  	pixmap = QPixmap::fromImage(image);
  	this->setPixmap(pixmap);
-}
-
-PreviewWindow::~PreviewWindow(){
-	
 }
 
 void PreviewWindow::updateView(){
@@ -26,6 +23,7 @@ void PreviewWindow::updateView(){
 		lastBlock = nextBlock;
 	}
 
+	//Draw the nextBlock
 	QPixmap newPixmap(pixmap);
 	QPainter painter(&newPixmap);
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
@@ -33,10 +31,11 @@ void PreviewWindow::updateView(){
 		QColor color = resolveColor(drawingCube->getColor());
 
 		painter.fillRect((drawingCube->getX() - nextBlock->getX() + 1)*20+1,
-						 (drawingCube->getY() - nextBlock->getY() - 1)*-20+1,
+						 (drawingCube->getY() - nextBlock->getY() - 2)*-20+1,
 						  19, 19, color);
 	}
 
+	//Apply
 	this->setPixmap(newPixmap);
 	this->update();
 }

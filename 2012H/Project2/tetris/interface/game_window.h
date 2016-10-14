@@ -13,6 +13,7 @@
 #include "preview_window.h"
 #include "game_controller.h"
 
+//This class is the main window for all display items
 class GameWindow : public QMainWindow{
 	Q_OBJECT
 
@@ -26,7 +27,9 @@ public:
 	GameWindow(QWidget * parent = 0, Qt::WindowFlags flags = 0);
 	~GameWindow();
 
+	//Update all the display
 	void updateView();
+	//Return singleton
 	static GameWindow* getWindow();
 };
 
