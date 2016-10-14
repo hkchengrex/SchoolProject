@@ -43,11 +43,14 @@ bool Block::isPosValid(int x, int y){
 //-1 for anticlockwise, 1 for clockwise
 bool Block::applyRotation(int dir){
 	//Calculate new position
-	int oldShift[CUBES_IN_EACH_BLOCK][2]; //Original shift from center
-	int newShift[CUBES_IN_EACH_BLOCK][2]; //New shift from the center
-	int newPos[CUBES_IN_EACH_BLOCK][2]; //New position
+	int oldShift[CUBES_IN_EACH_BLOCK][2] = {0}; //Original shift from center
+	int newShift[CUBES_IN_EACH_BLOCK][2] = {0}; //New shift from the center
+	int newPos[CUBES_IN_EACH_BLOCK][2] = {0}; //New position
 
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
+		if (cubes[i] == NULL){
+			continue;
+		}
 		oldShift[i][0] = cubes[i]->getX() - x;
 		oldShift[i][1] = cubes[i]->getY() - y;
 
@@ -69,6 +72,9 @@ bool Block::applyRotation(int dir){
 	//Inform the child cubes
 	if (isValid){
 		for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
+			if (cubes[i] == NULL){
+				continue;
+			}
 			cubes[i]->setXY(newPos[i][0], newPos[i][1]);
 		}
 		return true;
@@ -89,6 +95,9 @@ bool Block::applyTranslate(int shiftX, int shiftY){
 	bool isValid = true;
 	//Check whether the motion is valid
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
+		if (cubes[i] == NULL){
+			continue;
+		}
 		if (!isPosValid(cubes[i]->getX() + shiftX, cubes[i]->getY() + shiftY)){
 			isValid = false;
 		}
@@ -99,6 +108,9 @@ bool Block::applyTranslate(int shiftX, int shiftY){
 		this->y += shiftY;
 		//Inform the child cubes
 		for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
+			if (cubes[i] == NULL){
+				continue;
+			}
 			cubes[i]->setXY(cubes[i]->getX() + shiftX, cubes[i]->getY() + shiftY);
 		}
 		return true;

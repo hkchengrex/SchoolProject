@@ -29,6 +29,7 @@ void GameBoard::updateView(){
 				if (drawingCube == NULL){
 					continue;
 				}
+				
 				QColor color = resolveColor(drawingCube->getColor());
 
 				painter.fillRect(drawingCube->getX()*20+1, drawingCube->getY()*-20+1, 19, 19, color);
