@@ -1,26 +1,30 @@
-The project mainly consist of two parts- logic and interface
+COMP2012H Project2 - Tetris
+
+Made By:
+Cheng Ho Kei (12219689)
+Chan Nok Hin (20349103)
+
+The project program has been divided into logic and interface part.
+
+Logic:
+
+* Game manager: Contain information about the game, such as score, level, the current/next block and the current base. Act as a entrance from the UI to the game logic.
+
+* Cube: Basic unit of tetris. Represent a square with x, y coordinate and color.
+
+* Block: Class that contains several Cubes to construct different kinds of block. It handles the rotation and translation of the block.
+
+* Base: A class containing all the Cubes that are landed on it
+
+* Util: A class to convert the Cubes's enum color (abstract) to the UI color (QColor)
 
 Interface:
-  GameWindow class: Display the gameboad, player's score, number of lives, and information about the next piece to appear
-  *The constructor fuction declare a number of QBoxes to create the structure of interface. It adds the gameBoard, gameController, previewWindow
-   level and score label to the box
-  *updateView() obtain updated information for gameBoard, previewWindow from their class, score and level from the gameBoard class, previewWindow class
-   and GameManger class respectively
+
+* GameWindow: Container of gameboard, score, level and preview window. Its updateView() function will update all UI it contains.
    
-  GameBoad class: Layout of the gameboad 
-  *Constructor set the background of the board
-  *updateView() draw the tetris block in different color and keep painting the in the pixmap
+* GameBoard & Preview window: Draw the tetris pieces
   
-  GameController class: Get the user input
+* GameController: Capture user input and redirect to the logic part
   
-  Preview_window class: draw and update the preview window
-  
-Logic:
-  Game manager class: Contain all sort of information in the game like score, block and command to the block like rotate
-  Block class: Class that conbines the cubes in cube class to construct different kinds of block. Applying different movement, like translation
-               rotation
-  Cube class: A basic unit of a block, containing x, y coordinate of a cube
-  Base class: A class containing all the Cubes that are landed on it
-  Util class: A class to switch the color
    
 
