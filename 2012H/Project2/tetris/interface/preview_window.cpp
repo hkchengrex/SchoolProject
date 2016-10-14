@@ -23,6 +23,10 @@ void PreviewWindow::updateView(){
 		lastBlock = nextBlock;
 	}
 
+	if (nextBlock == NULL){
+		return;
+	}
+
 	//Draw the nextBlock
 	QPixmap newPixmap(pixmap);
 	QPainter painter(&newPixmap);

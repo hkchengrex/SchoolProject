@@ -19,6 +19,9 @@ void GameBoard::updateView(){
 
 	//Draw the base cubes
 	Base* base = GameManager::getManager()->getBase();
+	if (base == NULL){
+		return;
+	}
 	for (int i=0; i<BASE_WIDTH; i++){
 		for (int k=0; k>-BASE_HEIGHT; k--){
 			if (base->isOccupied(i, k)){
@@ -32,6 +35,9 @@ void GameBoard::updateView(){
 
 	//Draw the falling block
 	Block* currBlock = GameManager::getManager()->getCurrBlock();
+	if (currBlock == NULL){
+		return;
+	}
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		Cube* drawingCube = currBlock->getCube(i);
 		QColor color = resolveColor(drawingCube->getColor());
