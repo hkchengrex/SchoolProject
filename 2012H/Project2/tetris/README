@@ -14,5 +14,11 @@ Interface:
   GameController class: Get the user input
   
   Preview_window class: draw and update the preview window
+  
+Logic:
+  Game manager class: Contain all sort of information in the game like score, block and command to the block like rotate
+  Block class: Class that conbines the cubes in cube class to construct different kinds of block
+  Cube class: A basic unit of a block
+  Base class: 
    
 
