@@ -1,0 +1,26 @@
+The project mainly consist of two parts- logic and interface
+
+Interface:
+  GameWindow class: Display the gameboad, player's score, number of lives, and information about the next piece to appear
+  *The constructor fuction declare a number of QBoxes to create the structure of interface. It adds the gameBoard, gameController, previewWindow
+   level and score label to the box
+  *updateView() obtain updated information for gameBoard, previewWindow from their class, score and level from the gameBoard class, previewWindow class
+   and GameManger class respectively
+   
+  GameBoad class: Layout of the gameboad 
+  *Constructor set the background of the board
+  *updateView() draw the tetris block in different color and keep painting the in the pixmap
+  
+  GameController class: Get the user input
+  
+  Preview_window class: draw and update the preview window
+  
+Logic:
+  Game manager class: Contain all sort of information in the game like score, block and command to the block like rotate
+  Block class: Class that conbines the cubes in cube class to construct different kinds of block. Applying different movement, like translation
+               rotation
+  Cube class: A basic unit of a block, containing x, y coordinate of a cube
+  Base class: A class containing all the Cubes that are landed on it
+  Util class: A class to switch the color
+   
+
