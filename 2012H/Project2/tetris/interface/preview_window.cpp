@@ -24,7 +24,7 @@ void PreviewWindow::updateView(){
 	}
 
 	if (nextBlock == NULL){
-		return;
+		return; //Just in case
 	}
 
 	//Draw the nextBlock
@@ -33,7 +33,7 @@ void PreviewWindow::updateView(){
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		Cube* drawingCube = nextBlock->getCube(i);
 		if (drawingCube == NULL){
-			continue;
+			continue; //Just in case
 		}
 		QColor color = resolveColor(drawingCube->getColor());
 

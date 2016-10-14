@@ -27,7 +27,7 @@ void GameBoard::updateView(){
 			if (base->isOccupied(i, k)){
 				Cube* drawingCube = base->getCube(i, k);
 				if (drawingCube == NULL){
-					continue;
+					continue; //Just in case
 				}
 				
 				QColor color = resolveColor(drawingCube->getColor());
@@ -45,7 +45,7 @@ void GameBoard::updateView(){
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		Cube* drawingCube = currBlock->getCube(i);
 		if (drawingCube == NULL){
-			continue;
+			continue; //Just in case
 		}
 		QColor color = resolveColor(drawingCube->getColor());
 
