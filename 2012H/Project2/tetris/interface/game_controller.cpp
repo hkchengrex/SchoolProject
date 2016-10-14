@@ -21,8 +21,8 @@ GameController::~GameController(){
 
 void GameController::ticksEvent(){
 	//The main heartbeat of the game
-	GameManager::getManager()->updateGame();
 	if (GameManager::getManager()->isStarted()){
+		GameManager::getManager()->updateGame();
 		GameWindow::getWindow()->updateView();
 	}
 	tickTimer->setInterval(SPEED_CONSTANT-(GameManager::getManager()->getLevel()-1)*100);
@@ -55,5 +55,7 @@ void GameController::keyPressEvent(QKeyEvent *event){
 			GameManager::getManager()->rotateClockwise();
 		break;
 	}
-	GameWindow::getWindow()->updateView();
+	if (GameManager::getManager()->isStarted()){
+		GameWindow::getWindow()->updateView();
+	}
 }

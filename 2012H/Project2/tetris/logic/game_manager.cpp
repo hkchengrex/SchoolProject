@@ -40,27 +40,7 @@ void GameManager::genNextBlock(){
 }
 
 void GameManager::updateGame(){
-	if (gameStarted){
-		if (!dropBlock()){
-			//If dropping is not valid -> Ground touched
-			currBlock->mergeAndDelete();
-			int isLost = base->checkIsLost();
-			if (isLost){
-				//If lost, no longer update game
-				gameStarted = false;
-			}else{
-				//Create next block
-				genNextBlock();
-				int cleared = base->clearFullLines();
-				score += cleared*cleared*10;
-				level = score/100 + 1;
-				//Cap the max. level
-				if (level>=10){
-					level = 10;
-				}
-			}
-		}
-	}
+	dropBlock();
 }
 
 //Respond to user input
@@ -87,23 +67,65 @@ void GameManager::startGame(){
 //Transfer all these commands to the currBlock
 
 bool GameManager::moveRight(){
-	return currBlock->moveRight();
+	if (gameStarted){
+		return currBlock->moveRight();
+	}else{
+		return false;
+	}
 }
 
 bool GameManager::moveLeft(){
-	return currBlock->moveLeft();
+	if (gameStarted){
+		return currBlock->moveLeft();
+	}else{
+		return false;
+	}
 }
 
 bool GameManager::rotateClockwise(){
-	return currBlock->rotateClockwise();
+	if (gameStarted){
+		return currBlock->rotateClockwise();
+	}else{
+		return false;
+	}
 }
 
 bool GameManager::rotateAntiClockwise(){
-	return currBlock->rotateAntiClockwise();
+	if (gameStarted){
+		return currBlock->rotateAntiClockwise();
+	}else{
+		return false;
+	}
 }	
 
 bool GameManager::dropBlock(){
-	return currBlock->dropBlock();
+	if (gameStarted){
+		if (!currBlock->dropBlock()){
+			//If dropping is not valid -> Ground touched
+			currBlock->mergeAndDelete();
+			currBlock = NULL;
+			int isLost = base->checkIsLost();
+			if (isLost){
+				//If lost, no longer update game
+				gameStarted = false;
+			}else{
+				//Create next block
+				genNextBlock();
+				int cleared = base->clearFullLines();
+				score += cleared*cleared*10;
+				level = score/100 + 1;
+				//Cap the max. level
+				if (level>=10){
+					level = 10;
+				}
+			}
+			return false;
+		}else{
+			return true;
+		}
+	}else{
+		return false;
+	}
 }
 
 Block* GameManager::getCurrBlock() const{
