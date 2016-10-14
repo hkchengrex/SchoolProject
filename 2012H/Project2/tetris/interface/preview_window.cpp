@@ -32,8 +32,8 @@ void PreviewWindow::updateView(){
 		Cube* drawingCube = nextBlock->getCube(i);
 		QColor color = resolveColor(drawingCube->getColor());
 
-		painter.fillRect((drawingCube->getX() - nextBlock->getX()+1)*20+1,
-						 (nextBlock->getY() - drawingCube->getY()-1)*-20+1,
+		painter.fillRect((drawingCube->getX() - nextBlock->getX() + 1)*20+1,
+						 (drawingCube->getY() - nextBlock->getY() - 1)*-20+1,
 						  19, 19, color);
 	}
 
