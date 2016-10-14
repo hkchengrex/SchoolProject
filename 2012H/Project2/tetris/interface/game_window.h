@@ -6,9 +6,11 @@
 #include <QMainWindow>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QLabel>
 
 #include "game_window.h"
 #include "game_board.h"
+#include "preview_window.h"
 #include "game_controller.h"
 
 class GameWindow : public QMainWindow{
@@ -16,6 +18,8 @@ class GameWindow : public QMainWindow{
 
 private:
 	GameBoard* gameBoard;
+	PreviewWindow* previewWindow;
+	QLabel* levelLabel, * scoreLabel;
 	GameController* gameController;
 	
 public:

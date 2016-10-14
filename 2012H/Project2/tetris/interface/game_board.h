@@ -11,6 +11,7 @@
 
 #include "base.h"
 #include "block.h"
+#include "util.h"
 
 #define BOARD_WIDTH BASE_WIDTH
 #define BOARD_HEIGHT BASE_HEIGHT

@@ -16,17 +16,22 @@ private:
 	
 	int score, level;
 	Block* currBlock, *nextBlock;
+	bool gameStarted;
+	void endGame();
 
 public:
 	GameManager();
+	~GameManager();
 	int getScore() const;
 	int getLevel() const;
 	Base* getBase() const;
+	bool isStarted() const;
 
 	void genNextBlock();
 	void updateGame();
 
 	//Respond to user input
+	void startGame();
 	bool moveRight();
 	bool moveLeft();
 	bool rotateClockwise();

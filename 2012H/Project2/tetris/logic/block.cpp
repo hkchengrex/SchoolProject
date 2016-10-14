@@ -1,6 +1,5 @@
 #include "block.h"
 #include "game_manager.h"
-#include <stdio.h>
 
 //This file contains the implementation of the Block Class.
 
@@ -18,8 +17,16 @@ Block::Block(BlockType type, int inX, int inY) : x(inX), y(inY){
 Block::~Block(){
 	//Delete all owned blocks
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
-		delete cubes[i];
+		delete cubes[i]; //Delete NULL pointer is OK
 	}
+}
+
+int Block::getX(){
+	return x;
+}
+
+int Block::getY(){
+	return y;
 }
 
 bool Block::isPosValid(int x, int y){
@@ -32,7 +39,7 @@ bool Block::isPosValid(int x, int y){
 	}
 }
 
-//1 for clockwise, -1 for anticlockwise
+//-1 for clockwise, 1 for anticlockwise
 bool Block::applyRotation(int dir){
 	//Calculate new position
 	int oldShift[CUBES_IN_EACH_BLOCK][2]; //Original shift from center
@@ -69,11 +76,11 @@ bool Block::applyRotation(int dir){
 }
 
 bool Block::rotateClockwise(){
-	return applyRotation(1);
+	return applyRotation(-1);
 }
 
 bool Block::rotateAntiClockwise(){
-	return applyRotation(-1);
+	return applyRotation(1);
 }
 
 bool Block::applyTranslate(int shiftX, int shiftY){
@@ -110,7 +117,6 @@ bool Block::dropBlock(){
 
 //Transfer all the blocks to the base
 void Block::mergeAndDelete(){
-	printf("Touched!\n");
 	Base* base = GameManager::getManager()->getBase();
 	for (int i=0; i<CUBES_IN_EACH_BLOCK; i++){
 		base->acceptNewCube(cubes[i]);

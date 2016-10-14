@@ -51,6 +51,9 @@ public:
 	Block(BlockType type, int x, int y);
 	~Block();
 
+	int getX();
+	int getY();
+
 	//Movement functions, return false if motion not valid
 	bool moveRight();
 	bool moveLeft();

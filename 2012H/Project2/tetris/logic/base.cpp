@@ -13,7 +13,7 @@ Base::Base(){
 Base::~Base(){
 	for (int i=0; i<BASE_WIDTH; i++){
 		for (int k=0; k<BASE_HEIGHT; k++){
-			delete cubes[i][k];
+			delete cubes[i][k]; //delete NULL pointer is OK
 		}
 	}
 }
@@ -25,6 +25,17 @@ bool Base::isOccupied(int x, int y) const{
 
 Cube* Base::getCube(int x, int y) const{
 	return cubes[x][BASE_HEIGHT+y-1];
+}
+
+bool Base::checkIsLost() const{
+	for (int i=BASE_HEIGHT-1; i>=BASE_HEIGHT-3; i--){
+		for (int k=0; k<BASE_WIDTH; k++){
+			if (cubes[k][i] != NULL){
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 int Base::clearFullLines(){

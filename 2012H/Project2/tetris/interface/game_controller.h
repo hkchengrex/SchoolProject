@@ -11,18 +11,13 @@
 
 //This file handle user input and game clock.
 
-#define SPEED_CONSTANT 500
-#define UPDATE_SPEED 30
-#define KEY_SPEED 50
+#define SPEED_CONSTANT 1000
 
 class GameController : public QWidget{
 	Q_OBJECT
 
 private:
 	QTimer* tickTimer;
-	QTimer* keyTimer;
-	QTimer* viewTimer;
-	int pressKey;
 
 public: 
 	GameController(QWidget* parent = 0);
@@ -32,8 +27,6 @@ public:
 
 public slots:
 	void ticksEvent();
-	void keyHandler();
-	void updateView();
 };
 
 #endif
