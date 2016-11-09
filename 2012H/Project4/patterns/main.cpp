@@ -1,9 +1,9 @@
-#include "main.h"
+#include "main_window.h"
 
 int main(int argc, char *argv[]){
     QApplication app(argc, argv);
  
-    GameWindow *window = GameWindow::getWindow();
+    MainWindow *window = new MainWindow();
     window->show();
     return app.exec();
 }
