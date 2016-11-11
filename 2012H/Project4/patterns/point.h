@@ -6,6 +6,8 @@
 #include <string>
 #include <cstdio>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -20,8 +22,14 @@ public:
 	Point (const Point& p) : _x(p._x), _y(p._y) {}
 	~Point() {}
 
-	int getX() {return _x;}
-	int getY() {return _y;}
+	static bool compareX(Point* p1, Point* p2){
+		return (*p1 < *p2);
+	}
+
+	int getX() const {return _x;}
+	int getY() const {return _y;}
+	void setX(int x) {_x = x;}
+	void setY(int y) {_y = y;}
 
 	bool operator<(const Point& p) const{
 		return (_x == p._x) ? (_y < p._y) : (_x < p._x);
@@ -55,6 +63,48 @@ public:
 		char buf[100];
 		sprintf(buf, "(%d, %d)", _x, _y);
 		string str = buf;
+		return str;
+	}
+};
+
+class Line{
+private:
+	vector<Point*> v;
+public:
+	Line(){}
+
+	int length(){
+		return v.size();
+	}
+
+	vector<Point*>::iterator getBegin(){
+		return v.begin();
+	}
+
+	vector<Point*>::iterator getEnd(){
+		return v.end();
+	}
+
+	void addPoint(Point * p){
+		v.push_back(p);
+	}
+
+	void order(){
+		sort(&(v.front()), &(v.back())+1, Point::compareX);
+	}
+
+	string toString(){
+		char buf[10];
+		sprintf(buf, "%d: ", (int)v.size());
+		string str = buf;
+
+		for (vector<Point*>::iterator it=v.begin(); it!=v.end(); it++){
+			str += (*it)->toString();
+			if (*it != v.back()){
+				str += " -> ";
+			}
+		}
+
 		return str;
 	}
 };

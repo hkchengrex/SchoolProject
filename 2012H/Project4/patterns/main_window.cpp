@@ -1,17 +1,24 @@
 #include "main_window.h"
+#include <QAction>
 
-MainWindow::MainWindow(QWidget * parent, Qt::WindowFlags flags):
+MainWindow::MainWindow(vector<Point*> v, QWidget * parent, Qt::WindowFlags flags):
 QMainWindow(parent, flags),
 menubar(new QMenuBar(this)),
-menu(new QMenu("&Method"))
+menu(new QMenu("&Method")),
+board(new Board(v))
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+	bruteAction = new QAction("&Brute", this);
+	fastAction = new QAction("&Fast", this);
 
-	menu->addAction("&Brute");
-	menu->addAction("&Fast");
+	connect(bruteAction, SIGNAL(triggered()), board, SLOT(brute()));
+	connect(fastAction, SIGNAL(triggered()), board, SLOT(fast()));
+
+	menu->addAction(bruteAction);
+	menu->addAction(fastAction);
 	menubar->addAction(menu->menuAction());
 
-	mainLayout->setMenuBar(menubar);
-    setLayout(mainLayout);
+	this->setFixedSize(WIN_WIDTH, WIN_HEIGHT);
+	this->setCentralWidget(board);
+	this->setMenuBar(menubar);
 }
 

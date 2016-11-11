@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QVBoxLayout>
+#include "board.h"
 
 //This class is the main window for all display items
 class MainWindow : public QMainWindow{
@@ -13,11 +14,12 @@ class MainWindow : public QMainWindow{
 private:
 	QMenuBar* menubar;
 	QMenu* menu;
-public:
-	MainWindow(QWidget * parent = 0, Qt::WindowFlags flags = 0);
+	Board* board;
 
-	//Update all the display
-	void updateView();
+	QAction* bruteAction;
+	QAction* fastAction;
+public:
+	MainWindow(vector<Point*> v, QWidget * parent = 0, Qt::WindowFlags flags = 0);
 };
 
 #endif

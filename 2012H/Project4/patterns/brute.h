@@ -1,49 +1,41 @@
+#ifndef _BRUTE_H
+#define _BRUTE_H
+
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 #include "point.h"
 
-bool compareX(Point* p1, Point* p2){
-	return (*p1 < *p2);
-}
-
-class Brute(){
+class Brute{
 private:
-	Point** pts;
+	vector<Point*> pts;
 public:
-	Brute(Point** p) : pts(p) {}
+	Brute(vector<Point*> v) : pts(v) {}
 	~Brute() {}
-}
 
-int main(){
+	void solve(vector<Line*>* lines){
+		sort(&(pts.front()), &(pts.back())+1, Point::compareX);
 
-	int N;
-	cin >> N;
+		for (int i=0; i<pts.size(); i++){
+			for (int j=i+1; j<pts.size(); j++){
+				for (int k=j+1; k<pts.size(); k++){
+					for (int l=k+1 ;l<pts.size(); l++){
+						if (pts[i]->isCollinear(pts[j], pts[k], pts[l])){
+							Line* line = new Line();
+							line->addPoint(pts[i]);
+							line->addPoint(pts[j]);
+							line->addPoint(pts[k]);
+							line->addPoint(pts[l]);
+							line->order();
 
-	Point** pts = new Point*[N];
-	for (int i=0; i<N; i++){
-		int x, y;
-		cin >> x >> y;
-		pts[i] = new Point(x, y);
-	}
-
-	sort(pts, pts+N, compareX);
-
-	for (int i=0; i<N; i++){
-		for (int j=i+1; j<N; j++){
-			for (int k=j+1; k<N; k++){
-				for (int l=k+1 ;l<N; l++){
-					if (pts[i]->isCollinear(pts[j], pts[k], pts[l])){
-						cout << "4: " << 
-							pts[i]->toString() << " -> " << 
-							pts[j]->toString() << " -> " << 
-							pts[k]->toString() << " -> " << 
-							pts[l]->toString() << endl;
+							lines->push_back(line);
+						}
 					}
 				}
 			}
 		}
 	}
+};
 
-	return 0;
-}
+#endif
