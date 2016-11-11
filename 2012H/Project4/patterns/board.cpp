@@ -43,10 +43,10 @@ void Board::brute(){
 	cout << time.elapsed() << endl;
 	QDialog* dialog = new QDialog();
 	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
-	dialog->setFixedSize(10, 10);
+	dialog->setFixedSize(100, 10);
 	dialog->show();
 
-	this->update();
+	this->repaint();
 }
 
 void Board::fast(){
@@ -63,9 +63,9 @@ void Board::fast(){
 	cout << time.elapsed() << endl;
 	QDialog* dialog = new QDialog();
 	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
-	dialog->setFixedSize(10, 10);
+	dialog->setFixedSize(100, 10);
 	dialog->show();
 
-	this->update();
+	this->repaint();
 }
 
