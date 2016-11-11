@@ -30,6 +30,9 @@ void Board::paintEvent(QPaintEvent * e) {
 }
 
 void Board::brute(){
+	QTime time;
+	time.start();
+
 	Brute brute(pts);
 
 	brute.solve(&lines);
@@ -37,16 +40,31 @@ void Board::brute(){
 		cout << (*it)->toString() << endl;
 	}
 
+	cout << time.elapsed() << endl;
+	QDialog* dialog = new QDialog();
+	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
+	dialog->setFixedSize(10, 10);
+	dialog->show();
+
 	this->update();
 }
 
 void Board::fast(){
+	QTime time;
+	time.start();
+
 	Fast fast(pts);
 
 	fast.solve(&lines);
 	for (vector<Line*>::iterator it=lines.begin(); it!=lines.end(); it++){
 		cout << (*it)->toString() << endl;
 	}
+
+	cout << time.elapsed() << endl;
+	QDialog* dialog = new QDialog();
+	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
+	dialog->setFixedSize(10, 10);
+	dialog->show();
 
 	this->update();
 }

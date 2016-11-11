@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QVBoxLayout>
+#include <QTime>
 #include <vector>
 #include "point.h"
 #include "point_plotter.h"
