@@ -13,8 +13,8 @@ class PointHelper{
 public:
 	Point* p;
 	int index;
-	double angle;
-	PointHelper(Point* in_p, int i) : p(in_p), index(i), angle(0.0) {};
+	float angle;
+	PointHelper(Point* in_p, int i) : p(in_p), index(i), angle(0.0f) {};
 };
 
 class compareAngle{
@@ -51,21 +51,21 @@ public:
 			temp[i] = new PointHelper(pts[i], i);
 		}
 
+		list<int> items;
 		//i is the origin point
-		for (int i=0; i<N; i++){
+		for (int i=0; i<(N-1); i++){
 			//Note that the first item is the origin itself
-			sort(temp, temp+N, compareAngle(pts[i]));
+			sort(temp+i, temp+N, compareAngle(pts[i]));
 
 			int count = 0;
-			list<int> items;
 			//Thus skip the first item
-			if (!checked[i*N + temp[1]->index]){
+			if (!checked[i*N + temp[1+i]->index]){
 				count++;
-				items.push_back(temp[1]->index);
+				items.push_back(temp[1+i]->index);
 			}
 
 			//Use k=N and short-circuit to handle the last-point special case
-			for (int k=2; k<=N; k++){
+			for (int k=2+i; k<=N; k++){
 				if (k==N || !checked[i*N + temp[k]->index]){
 					if (k!= N && abs(temp[k]->angle - temp[k-1]->angle) < ACCEPTED_ERROR){
 						items.push_back(temp[k]->index);
@@ -93,11 +93,7 @@ public:
 					}
 				}
 			}
-
-			for (int k=0; k<N; k++){
-				checked[i*N + k] = true;
-				checked[k*N + i] = true;
-			}
+			items.clear();
 		}
 
 	}

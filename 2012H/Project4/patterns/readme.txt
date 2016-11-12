@@ -62,7 +62,7 @@ Sorting:  9.98 × 10^10 seconds
  **********************************************************************/
 Brute: O(N^4) as the main operation of Brute is four for loop, each with a length proportional to n.
 
-Sorting: O(N^3) as for each point, it will become the origin and test its angle with n points. This gives n^2. Then for each point, there is a sorting operation. As unknown sorting is provided, and it is not specified in the library, I assumed quicksort, with worst case O(N). Then the overall complexity is O(N^3).
+Sorting: O(N^2logN) as for each point, it will become the origin. This gives N. Then for each point, there is a sorting operation. As unknown sorting is provided, and it is not specified in the library, I assumed best worst case one, which is O(NlogN);
 
 
 

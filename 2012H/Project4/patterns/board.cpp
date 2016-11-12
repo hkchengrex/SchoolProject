@@ -43,7 +43,7 @@ void Board::brute(){
 	cout << time.elapsed() << endl;
 	QDialog* dialog = new QDialog();
 	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
-	dialog->setFixedSize(100, 10);
+	dialog->setFixedSize(100, 100);
 	dialog->show();
 
 	this->repaint();

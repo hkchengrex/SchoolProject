@@ -12,7 +12,7 @@
 using namespace std;
 
 #define PI 3.14159265
-#define ACCEPTED_ERROR 0.0001
+#define ACCEPTED_ERROR 0.00001f
 
 class Point{
 private:
@@ -43,15 +43,15 @@ public:
 		return (!(*this>p)) && (!(*this<p));
 	}
 
-	double getAngleTo(const Point* p) const{
+	float getAngleTo(const Point* p) const{
 		//Handle itself special case
-		if (p->_y == _y && p->_x == _x){
-			return -361.0;
+		if (p->_x == _x){
+			return -32768;
 		}
-		return atan2(p->_y - _y, p->_x - _x) * 180.0 /PI;
+		return ((float)(p->_y - _y)) / ((float)(p->_x - _x));
 	}
 
-	double getAngleFrom(const Point* p) const{
+	float getAngleFrom(const Point* p) const{
 		return p->getAngleTo(this);
 	}
 
