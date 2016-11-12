@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QVBoxLayout>
 #include <QTime>
+#include <QMessageBox>
 #include <vector>
 #include "point.h"
 #include "point_plotter.h"

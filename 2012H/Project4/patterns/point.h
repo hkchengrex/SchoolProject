@@ -12,7 +12,7 @@
 using namespace std;
 
 #define PI 3.14159265
-#define ACCEPTED_ERROR 0.00001f
+#define ACCEPTED_ERROR 0.000001f
 
 class Point{
 private:
@@ -56,7 +56,7 @@ public:
 	}
 
 	bool isCollinear(const Point* p1, const Point* p2, const Point* p3) const{
-		return ((abs(getAngleTo(p1) - getAngleTo(p2)) < ACCEPTED_ERROR) && (abs(getAngleTo(p2) - getAngleTo(p3)) < ACCEPTED_ERROR));
+		return ((fabs(getAngleTo(p1) - getAngleTo(p2)) < ACCEPTED_ERROR) && (fabs(getAngleTo(p2) - getAngleTo(p3)) < ACCEPTED_ERROR));
 	}
 
 	string toString(){

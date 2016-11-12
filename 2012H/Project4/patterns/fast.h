@@ -51,7 +51,7 @@ public:
 			temp[i] = new PointHelper(pts[i], i);
 		}
 
-		list<int> items;
+		vector<int> items(N);
 		//i is the origin point
 		for (int i=0; i<(N-1); i++){
 			//Note that the first item is the origin itself
@@ -67,7 +67,7 @@ public:
 			//Use k=N and short-circuit to handle the last-point special case
 			for (int k=2+i; k<=N; k++){
 				if (k==N || !checked[i*N + temp[k]->index]){
-					if (k!= N && abs(temp[k]->angle - temp[k-1]->angle) < ACCEPTED_ERROR){
+					if (k!= N && fabs(temp[k]->angle - temp[k-1]->angle) < ACCEPTED_ERROR){
 						items.push_back(temp[k]->index);
 						count ++;
 					}else{
@@ -75,8 +75,8 @@ public:
 							Line* line = new Line();
 							line->addPoint(pts[i]);
 
-							for (list<int>::iterator it=items.begin(); it!=items.end(); it++){
-								for (list<int>::iterator it2=items.begin(); it2!=items.end(); it2++){
+							for (vector<int>::iterator it=items.begin(); it!=items.end(); it++){
+								for (vector<int>::iterator it2=items.begin(); it2!=items.end(); it2++){
 									checked[(*it)*N + (*it2)] = true;
 								}
 

@@ -5,7 +5,7 @@ void Board::paintEvent(QPaintEvent * e) {
     QPainter p(this);
     QPen pen;
     pen.setColor(Qt::black);
-    pen.setWidth(3);
+    pen.setWidth(2);
 
     p.setPen(pen);
 
@@ -16,7 +16,7 @@ void Board::paintEvent(QPaintEvent * e) {
 	}
 
 	if (lines.size() > 0){
-		pen.setWidth(2);
+		pen.setWidth(1);
 		for (vector<Line*>::iterator it=lines.begin(); it!=lines.end(); it++){
 			Point* prev = 0;
 			for (vector<Point*>::iterator it2=(*it)->getBegin(); it2!=(*it)->getEnd(); it2++){
@@ -40,11 +40,11 @@ void Board::brute(){
 		cout << (*it)->toString() << endl;
 	}
 
-	cout << time.elapsed() << endl;
-	QDialog* dialog = new QDialog();
-	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
-	dialog->setFixedSize(100, 100);
-	dialog->show();
+	int t = time.elapsed();
+
+   	QMessageBox *msgBox = new QMessageBox();
+    msgBox->setText("Time (ms): " + QString::number(t));
+    msgBox->exec();
 
 	this->repaint();
 }
@@ -60,11 +60,10 @@ void Board::fast(){
 		cout << (*it)->toString() << endl;
 	}
 
-	cout << time.elapsed() << endl;
-	QDialog* dialog = new QDialog();
-	dialog->setWindowTitle("Time (ms): " + QString::number(time.elapsed()));
-	dialog->setFixedSize(100, 10);
-	dialog->show();
+	int t = time.elapsed();
+   	QMessageBox *msgBox = new QMessageBox();
+    msgBox->setText("Time (ms): " + QString::number(t));
+    msgBox->exec();
 
 	this->repaint();
 }

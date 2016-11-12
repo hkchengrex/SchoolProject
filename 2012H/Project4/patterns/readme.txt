@@ -35,24 +35,24 @@ Each point in the list would be selected once. Then I sort all other points by t
 ---------------------------------
      10       0.00        0.00
      20       0.00        0.00
-     40       0.01        0.00
-     80       0.20        0.00
-    100       0.42        0.00
-    150       1.67        0.07
-    200       5.26        0.12
-    400       85.86       0.22
-   1000       >180        1.34
-   2000       >180        5.94
-   4000       >180        25.57
-  10000       >180        177.209
+     40       0.00        0.00
+     80       0.03        0.00
+    100       0.03        0.00
+    150       0.16        0.00
+    200       0.51        0.00
+    400       7.02        0.02
+   1000       >180        0.13
+   2000       >180        0.24
+   4000       >180        1.11
+  10000       >180        8.84
 
 
 /**********************************************************************
  *  Estimate how long it would take to solve an instance of size
  *  N = 1,000,000 for each of the two algorithms using your computer.
  **********************************************************************/
-Brute:    3.35 × 10^15 seconds
-Sorting:  9.98 × 10^10 seconds
+Brute:    1.09 × 10^11 seconds
+Sorting:  1.73 × 10^7 seconds
 
 
 
@@ -62,7 +62,7 @@ Sorting:  9.98 × 10^10 seconds
  **********************************************************************/
 Brute: O(N^4) as the main operation of Brute is four for loop, each with a length proportional to n.
 
-Sorting: O(N^2logN) as for each point, it will become the origin. This gives N. Then for each point, there is a sorting operation. As unknown sorting is provided, and it is not specified in the library, I assumed best worst case one, which is O(NlogN);
+Sorting: O(N^3) as for each point, it will become the origin. This gives N. Then for each point, there is a sorting operation. As unknown sorting is provided, and it is not specified in the library, I assumed quick sort, which is O(N^2) worst case. So total would be O(N) times O(N^2) sort, overall O(n^3). 
 
 
 
