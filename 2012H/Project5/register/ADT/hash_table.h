@@ -13,6 +13,10 @@ public:
 	{
 
 	}
+
+	void add(T item){
+
+	}
 }
 
 #endif
