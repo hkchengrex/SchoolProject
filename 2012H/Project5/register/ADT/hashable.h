@@ -3,6 +3,7 @@
 
 class Hashable{
 protected:
+	//The hash base is a property of the key, so it is put here
 	const int HASH_BASE;
 
 public:

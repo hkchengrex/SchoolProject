@@ -20,7 +20,7 @@ public:
 		return _list.size();
 	}
 
-	void insert(T item){
+	void insert(const T& item){
 		std::list<T>::iterator iter = _list.begin();
 		while ((iter!=_list.end()) && (*iter < item)){
 			iter++;

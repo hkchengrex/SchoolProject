@@ -1,6 +1,8 @@
 #ifndef _COURSE_H
 #define _COURSE_H
 
+#include <string>
+
 class Course : public Hashable{
 
 private:
@@ -11,10 +13,10 @@ private:
 	int credit;
 
 public:
-	Course(string _code, string _name, int _credit) : code(_code), name(_name), credit(_credit)
-	{
+	Course(string _code, string _name, int _credit) : code(_code), name(_name), credit(_credit) {}
 
-	}
+	//Conversion constructor for key only
+	Course(string _code) : code(_code) {}
 
 	int computeHash(int buckets){
 		int sum = 0;
@@ -28,10 +30,34 @@ public:
 				mapped = code[i]-55;
 			}
 
-			sum += (mapped*power) % buckets;
+			sum = (sum + mapped*power) % buckets;
 			power = (power*HASH_BASE) % buckets;
 		}
 		return sum;
+	}
+
+	bool operator==(const Course& course){
+		return code == course.code;
+	}
+
+	bool operator<=(const Course& course){
+		return code <= course.code;
+	}
+
+	bool operator>=(const Course& course){
+		return code >= course.code;
+	}
+
+	bool operator<(const Course& course){
+		return code < course.code;
+	}
+
+	bool operator>(const Course& course){
+		return code > course.code;
+	}
+
+	bool operator!=(const Course& course){
+		return code != course.code;
 	}
 };
 
