@@ -2,6 +2,7 @@
 #define _COURSE_H
 
 #include <string>
+#include "../ADT/hashable.h"
 
 class Course : public Hashable{
 

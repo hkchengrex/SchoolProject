@@ -2,6 +2,7 @@
 #define _STUDENT_H
 
 #include <string>
+#include "../ADT/hashable.h"
 
 using namespace std;
 

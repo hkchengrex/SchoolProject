@@ -2,6 +2,8 @@
 #define _COURSE_SELECTION_H
 
 #include <string>
+#include "student.h"
+#include "course.h"
 
 class CourseSelection{
 private:
