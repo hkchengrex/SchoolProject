@@ -10,7 +10,7 @@ using namespace std;
 template <class T, int size>
 class HashTable{
 private:
-	std::vector<SortedList<T>> _vector;
+	vector<SortedList<T>> _vector;
 
 public:
 	HashTable() : _vector(std::vector(size)) {}

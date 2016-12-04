@@ -2,13 +2,20 @@
 #define _COURSE_H
 
 #include <string>
+#include <vector>
 #include "../ADT/hashable.h"
+#include "../ADT/hash_table.h"
+
+using namespace std;
+
+#define COURSE_HASH_BASE 36
+#define COURSE_HASH_BUCKETS 17
+
+typedef HashTable<Course, COURSE_HASH_BUCKETS> CourseTable;
 
 class Course : public Hashable{
 
 private:
-	const int HASH_BASE = 29;
-
 	string code;
 	string name;
 	int credit;
@@ -32,7 +39,7 @@ public:
 			}
 
 			sum = (sum + mapped*power) % buckets;
-			power = (power*HASH_BASE) % buckets;
+			power = (power*COURSE_HASH_BASE) % buckets;
 		}
 		return sum;
 	}
@@ -61,5 +68,6 @@ public:
 		return code != course.code;
 	}
 };
+
 
 #endif

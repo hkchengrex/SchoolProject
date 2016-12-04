@@ -3,8 +3,14 @@
 
 #include <string>
 #include "../ADT/hashable.h"
+#include "../ADT/hash_table.h"
 
 using namespace std;
+
+#define STD_HASH_BASE 10
+#define STD_HASH_BUCKETS 29
+
+typedef HashTable<Student, STD_HASH_BUCKETS> StudentTable;
 
 class Student : public Hashable{
 
@@ -15,8 +21,6 @@ struct Gender
 };
 
 private:
-	const int HASH_BASE = 10;
-
 	string id;
 	string name;
 	int year;
@@ -33,7 +37,7 @@ public:
 		int power = 1;
 		for (int i=0; i<id.size(); i++){
 			sum = (sum + (id[i]-48)*power) % buckets;
-			power = (power*HASH_BASE) % buckets;
+			power = (power*STD_HASH_BASE) % buckets;
 		}
 		return sum;
 	}

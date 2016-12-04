@@ -1,5 +1,7 @@
-#include "menu.h"
 #include <iostream>
+
+#include "menu.h"
+#include "actions.h"
 
 using namespace std;
 
@@ -32,7 +34,11 @@ void mainMenu(){
 }
 
 void l2_Menu(int item){
+	//Max selection number
 	int max = 0;
+
+	//Pointer to function pointer
+	void (*actions[MAX_MENU_ITEMS]) (void);
 
 	switch(item){
 		case 0:
@@ -47,6 +53,11 @@ void l2_Menu(int item){
 
 			cout << "Enter your choice (1-" << L2_1_MENU_SIZE << "): ";
 			max = L2_1_MENU_SIZE;
+
+			actions[0] = insertStd;
+			actions[1] = modifyStd;
+			actions[2] = deleteStd;
+			actions[3] = queryStd;
 		break;
 
 		case 1:
@@ -61,6 +72,11 @@ void l2_Menu(int item){
 
 			cout << "Enter your choice (1-" << L2_2_MENU_SIZE << "): ";
 			max = L2_2_MENU_SIZE;
+
+			actions[0] = insertCourse;
+			actions[1] = modifyCourse;
+			actions[2] = deleteCourse;
+			actions[3] = queryCourse;
 		break;
 
 		case 2:
@@ -75,6 +91,11 @@ void l2_Menu(int item){
 
 			cout << "Enter your choice (1-" << L2_3_MENU_SIZE << "): ";
 			max = L2_3_MENU_SIZE;
+
+			actions[0] = regCourse;
+			actions[1] = dropCourse;
+			actions[2] = modifyMark;
+			actions[3] = queryRegCourse;
 		break;
 
 		case 3:
@@ -89,6 +110,11 @@ void l2_Menu(int item){
 
 			cout << "Enter your choice (1-" << L2_4_MENU_SIZE << "): ";
 			max = L2_4_MENU_SIZE;
+
+			actions[0] = listAllStd;
+			actions[1] = listAllCourse;
+			actions[2] = listAllCourseOfStd;
+			actions[3] = listAllStdOfCourse;
 		break;
 
 		case 4:
@@ -101,6 +127,9 @@ void l2_Menu(int item){
 
 			cout << "Enter your choice (1-" << L2_5_MENU_SIZE << "): ";
 			max = L2_5_MENU_SIZE;
+
+			actions[0] = saveToDB;
+			actions[1] = loadFromDB;
 		break;
 
 		case 5:
@@ -108,13 +137,17 @@ void l2_Menu(int item){
 		break;
 	}
 
+	actions[max-1] = backToMainMenu;
+
 	do{
 		cin >> choice;
 
-		if (choice <= 0 || choice > MAIN_MENU_SIZE){
+		if (choice <= 0 || choice > max){
 			cout << "Invalid input, please try again: " << endl;
 		}else{
 			break;
 		}
 	}while(true);
+
+	actions[choice-1];
 }
