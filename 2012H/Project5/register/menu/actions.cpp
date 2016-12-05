@@ -703,11 +703,9 @@ void listAllStdOfCourse(){
 /* ------------------------------- */
 
 void saveToDB(){
-
 }
 
 void loadFromDB(){
-
 }
 
 void hitEnterToContinue(){
