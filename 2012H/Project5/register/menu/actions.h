@@ -1,6 +1,13 @@
 #ifndef _ACTIONS_H
 #define _ACTIONS_H
 
+#include "../data/validation.h"
+#include "../data/student.h"
+#include "../data/course.h"
+#include "../data/course_selection.h"
+#include "../data/indexes.h"
+#include "../obj/singleton.h"
+
 void insertStd();
 void modifyStd();
 void deleteStd();
@@ -24,6 +31,6 @@ void listAllStdOfCourse();
 void saveToDB();
 void loadFromDB();
 
-void backToMainMenu();
+void hitEnterToContinue();
 
 #endif

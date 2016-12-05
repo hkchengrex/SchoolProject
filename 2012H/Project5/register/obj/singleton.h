@@ -7,11 +7,12 @@
 #include "../data/course.h"
 #include "../data/course_selection.h"
 #include "../data/student.h"
+#include "../data/indexes.h"
 
 StudentTable& getStdTable();
 CourseTable& getCourseTable();
 
-SortList<CourseSelection>& getCourseSelectionList();
+SortedList<CourseSelection>& getCourseSelectionList();
 StudentKeyTable& getStdKeyTable();
 CourseKeyTable& getCourseKeyTable();
 

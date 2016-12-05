@@ -3,36 +3,40 @@
 
 #include <list>
 
+using namespace std;
+
 template <class T>
 class SortedList{
 private:
-	std::list<T> _list;
+	list<T> _list;
 
 public:
-	SortedList() : _list<T>()
+	SortedList() : _list()
 	{
 
 	}
-
-	~SortedList();
 
 	int getSize(){
 		return _list.size();
 	}
 
 	void insert(const T& item){
-		std::list<T>::iterator iter = _list.begin();
+		typename list<T>::iterator iter = _list.begin();
 		while ((iter!=_list.end()) && (*iter < item)){
 			iter++;
 		}
 		_list.insert(iter, item);
 	}
 
-	std::list<T>::iterator begin(){
+	void remove(const T& item){
+		_list.remove(item);
+	}
+
+	typename list<T>::iterator begin(){
 		return _list.begin();
 	}
 
-	std::list<T>::iterator end(){
+	typename list<T>::iterator end(){
 		return _list.end();
 	}
 

@@ -6,6 +6,7 @@
 using namespace std;
 
 void mainMenu(){
+	cout << string(100, '\n');
 	cout << "Welcome to HKUST Course Registration System" << endl;
 	cout << "===========================================" << endl << endl;
 
@@ -25,6 +26,7 @@ void mainMenu(){
 
 		if (choice <= 0 || choice > MAIN_MENU_SIZE){
 			cout << "Invalid input, please try again: " << endl;
+			cin.ignore();
 		}else{
 			break;
 		}
@@ -34,6 +36,8 @@ void mainMenu(){
 }
 
 void l2_Menu(int item){
+	cout << string(100, '\n');
+
 	//Max selection number
 	int max = 0;
 
@@ -137,17 +141,20 @@ void l2_Menu(int item){
 		break;
 	}
 
-	actions[max-1] = backToMainMenu;
-
+	int choice;
 	do{
 		cin >> choice;
 
 		if (choice <= 0 || choice > max){
-			cout << "Invalid input, please try again: " << endl;
+			cout << "Invalid input, please try again: ";
+			cin.ignore();
 		}else{
 			break;
 		}
 	}while(true);
 
-	actions[choice-1];
+	if (choice < max){
+		actions[choice-1]();
+	}
+	mainMenu();
 }

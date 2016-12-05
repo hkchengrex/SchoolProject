@@ -5,13 +5,10 @@
 #include <vector>
 #include "../ADT/hashable.h"
 #include "course.h"
-#include "stduent.h"
+#include "student.h"
 #include "course_selection.h"
 
 using namespace std;
-
-typedef HashTable<CourseKey, COURSE_HASH_BUCKETS> CourseIndexTable;
-typedef HashTable<StudentKey, STD_HASH_BUCKETS> StudentIndexTable;
 
 class CourseKey : public Hashable{
 
@@ -22,7 +19,7 @@ private:
 public:
 	CourseKey(string _code) : code(_code) {}
 
-	int computeHash(int buckets){
+	int computeHash(int buckets) const{
 		int sum = 0;
 		int power = 1;
 		for (int i=0; i<code.size(); i++){
@@ -67,12 +64,6 @@ public:
 
 class StudentKey : public Hashable{
 
-struct Gender
-{
-	MALE = 0,
-	FEMALE
-};
-
 private:
 	string id;
 	vector<CourseSelection*> pointer;
@@ -80,7 +71,7 @@ private:
 public:
 	StudentKey(string _id) : id(_id) {}
 
-	int computeHash(int buckets){
+	int computeHash(int buckets) const{
 		int sum = 0;
 		int power = 1;
 		for (int i=0; i<id.size(); i++){
@@ -115,5 +106,8 @@ public:
 	}
 
 };
+
+typedef HashTable<CourseKey, COURSE_HASH_BUCKETS> CourseKeyTable;
+typedef HashTable<StudentKey, STD_HASH_BUCKETS> StudentKeyTable;
 
 #endif

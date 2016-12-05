@@ -10,8 +10,8 @@ CourseTable& getCourseTable(){
 	return table;
 }
 
-SortList<CourseSelection>& getCourseSelectionList(){
-	static SortList<CourseSelection> mList;
+SortedList<CourseSelection>& getCourseSelectionList(){
+	static SortedList<CourseSelection> mList;
 	return mList;
 }
 

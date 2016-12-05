@@ -4,6 +4,7 @@
 #include <string>
 #include "student.h"
 #include "course.h"
+#include "validation.h"
 
 class CourseSelection{
 private:
