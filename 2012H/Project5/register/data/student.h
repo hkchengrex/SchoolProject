@@ -34,27 +34,27 @@ public:
 		return sum;
 	}
 
-	bool operator==(const Student& std){
+	bool operator==(const Student& std) const{
 		return id == std.id;
 	}
 
-	bool operator<=(const Student& std){
+	bool operator<=(const Student& std) const{
 		return id <= std.id;
 	}
 
-	bool operator>=(const Student& std){
+	bool operator>=(const Student& std) const{
 		return id >= std.id;
 	}
 
-	bool operator<(const Student& std){
+	bool operator<(const Student& std) const{
 		return id < std.id;
 	}
 
-	bool operator>(const Student& std){
+	bool operator>(const Student& std) const{
 		return id > std.id;
 	}
 
-	bool operator!=(const Student& std){
+	bool operator!=(const Student& std) const{
 		return id != std.id;
 	}
 

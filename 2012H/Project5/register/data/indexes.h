@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <list>
+#include <algorithm>
+#include <iostream>
 #include "../ADT/hashable.h"
 #include "course.h"
 #include "student.h"
@@ -13,11 +16,12 @@ using namespace std;
 class CourseKey : public Hashable{
 
 private:
-	string code;
-	vector<CourseSelection*> pointer;
+	const string code;
+	list<CourseSelection*> _list;
 
 public:
-	CourseKey(string _code) : code(_code) {}
+	CourseKey(const string& _code) : code(_code) {}
+	CourseKey(const Course& course) : code(course.code) {}
 
 	int computeHash(int buckets) const{
 		int sum = 0;
@@ -37,27 +41,62 @@ public:
 		return sum;
 	}
 
-	bool operator==(const Course& course){
+	bool contains(const Student& std) const{
+		typename list<CourseSelection*>::const_iterator iter = _list.begin();
+		while (iter != _list.end()){
+			if ((*iter)->stdID == std.id){
+				return true;
+			}
+			iter++;
+		}
+		return false;
+	}
+
+	CourseSelection* find(const Student& std) const{
+		typename list<CourseSelection*>::const_iterator iter = _list.begin();
+		while (iter != _list.end()){
+			if ((*iter)->stdID == std.id){
+				return *iter;
+			}
+			iter++;
+		}
+		return NULL;
+	}
+
+	void insert(CourseSelection* selection){
+		_list.push_back(selection);
+	}
+
+	void remove(CourseSelection* selection){
+		_list.remove(selection);
+	}
+
+	CourseKey& operator=(const CourseKey& std){
+		_list = std._list;
+		return *this;
+	}
+
+	bool operator==(const CourseKey& course) const{
 		return code == course.code;
 	}
 
-	bool operator<=(const Course& course){
+	bool operator<=(const CourseKey& course) const{
 		return code <= course.code;
 	}
 
-	bool operator>=(const Course& course){
+	bool operator>=(const CourseKey& course) const{
 		return code >= course.code;
 	}
 
-	bool operator<(const Course& course){
+	bool operator<(const CourseKey& course) const{
 		return code < course.code;
 	}
 
-	bool operator>(const Course& course){
+	bool operator>(const CourseKey& course) const{
 		return code > course.code;
 	}
 
-	bool operator!=(const Course& course){
+	bool operator!=(const CourseKey& course) const{
 		return code != course.code;
 	}
 };
@@ -65,11 +104,13 @@ public:
 class StudentKey : public Hashable{
 
 private:
-	string id;
-	vector<CourseSelection*> pointer;
+	const string id;
+	list<CourseSelection*> _list;
 
 public:
-	StudentKey(string _id) : id(_id) {}
+	StudentKey(const string& _id) : id(_id) {}
+	StudentKey(const Student& std) : id(std.id) {}
+	StudentKey(const StudentKey& key) : id(key.id), _list(key._list) {}
 
 	int computeHash(int buckets) const{
 		int sum = 0;
@@ -81,27 +122,66 @@ public:
 		return sum;
 	}
 
-	bool operator==(const Student& std){
+	int size() const{
+		return _list.size();
+	}
+
+	bool contains(const Course& course) const{
+		typename list<CourseSelection*>::const_iterator iter = _list.begin();
+		while (iter != _list.end()){
+			if ((*iter)->code == course.code){
+				return true;
+			}
+			iter++;
+		}
+		return false;
+	}
+
+	CourseSelection* find(const Course& course) const{
+		typename list<CourseSelection*>::const_iterator iter = _list.begin();
+		while (iter != _list.end()){
+			if ((*iter)->code == course.code){
+				return *iter;
+			}
+			iter++;
+		}
+		return NULL;
+	}
+
+	void insert(CourseSelection* selection){
+		_list.push_back(selection);
+	}
+
+	void remove(CourseSelection* selection){
+		_list.remove(selection);
+	}
+
+	StudentKey& operator=(const StudentKey& std){
+		_list = std._list;
+		return *this;
+	}
+
+	bool operator==(const StudentKey& std) const{
 		return id == std.id;
 	}
 
-	bool operator<=(const Student& std){
+	bool operator<=(const StudentKey& std) const{
 		return id <= std.id;
 	}
 
-	bool operator>=(const Student& std){
+	bool operator>=(const StudentKey& std) const{
 		return id >= std.id;
 	}
 
-	bool operator<(const Student& std){
+	bool operator<(const StudentKey& std) const{
 		return id < std.id;
 	}
 
-	bool operator>(const Student& std){
+	bool operator>(const StudentKey& std) const{
 		return id > std.id;
 	}
 
-	bool operator!=(const Student& std){
+	bool operator!=(const StudentKey& std) const{
 		return id != std.id;
 	}
 

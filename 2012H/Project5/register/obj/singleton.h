@@ -12,7 +12,7 @@
 StudentTable& getStdTable();
 CourseTable& getCourseTable();
 
-SortedList<CourseSelection>& getCourseSelectionList();
+SelectionList& getCourseSelectionList();
 StudentKeyTable& getStdKeyTable();
 CourseKeyTable& getCourseKeyTable();
 

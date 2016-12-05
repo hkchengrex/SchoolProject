@@ -167,3 +167,17 @@ int getValidCredit(){
 
 	return credit;
 }
+
+int getValidExamMark(){
+	int mark;
+	cout << "Enter Mark[0-" << MAX_EXAM_MARK << "]: ";
+	cin >> mark;
+
+	while (!isValidExamMark(mark)){
+		cout << "Invalid. Please input mark again: ";
+		cin.ignore();
+		cin >> mark;
+	}
+
+	return mark;
+}

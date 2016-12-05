@@ -12,6 +12,7 @@ using namespace std;
 #define COURSE_HASH_BASE 36
 #define COURSE_HASH_BUCKETS 17
 
+//This file is a class for storing class objects
 class Course : public Hashable{
 	
 public:
@@ -24,6 +25,7 @@ public:
 	//Conversion constructor for key only
 	Course(string _code) : code(_code) {}
 
+	//Hash function
 	int computeHash(int buckets) const{
 		int sum = 0;
 		int power = 1;
@@ -42,27 +44,28 @@ public:
 		return sum;
 	}
 
-	bool operator==(const Course& course){
+	//Overloadded operators
+	bool operator==(const Course& course) const{
 		return code == course.code;
 	}
 
-	bool operator<=(const Course& course){
+	bool operator<=(const Course& course) const{
 		return code <= course.code;
 	}
 
-	bool operator>=(const Course& course){
+	bool operator>=(const Course& course) const{
 		return code >= course.code;
 	}
 
-	bool operator<(const Course& course){
+	bool operator<(const Course& course) const{
 		return code < course.code;
 	}
 
-	bool operator>(const Course& course){
+	bool operator>(const Course& course) const{
 		return code > course.code;
 	}
 
-	bool operator!=(const Course& course){
+	bool operator!=(const Course& course) const{
 		return code != course.code;
 	}
 

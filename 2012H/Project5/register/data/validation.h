@@ -39,4 +39,6 @@ string getValidCourseCode();
 string getValidCourseName();
 int getValidCredit();
 
+int getValidExamMark();
+
 #endif

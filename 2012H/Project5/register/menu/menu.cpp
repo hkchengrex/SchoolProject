@@ -141,6 +141,8 @@ void l2_Menu(int item){
 		break;
 	}
 
+	cout << endl;
+
 	int choice;
 	do{
 		cin >> choice;
