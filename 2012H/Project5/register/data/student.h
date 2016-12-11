@@ -24,6 +24,8 @@ public:
 	//Conversion constructor for key only
 	Student(string _id) : id(_id) {}
 
+	Student() {}
+
 	int computeHash(int buckets) const{
 		int sum = 0;
 		int power = 1;

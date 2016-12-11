@@ -66,6 +66,7 @@ bool isValidExamMark(int mark){
 	return ((mark==UNDEF_EXAM_MARK) || (mark>=0 && mark<= MAX_EXAM_MARK));
 }
 
+//Return a valid std id to the caller
 string getValidStdID(){
 	string input;
 
@@ -81,21 +82,24 @@ string getValidStdID(){
 	return input;
 }
 
+//Return a valid stduent name
 string getValidStdName(){
 	string input;
 
 	cout << "Enter Student Name: ";
-	cin >> input;
+	cin.ignore();
+	getline(cin, input);
 
 	while (!isValidStdName(input)){
 		cout << "Invalid. Please input Student name again: ";
 		cin.ignore();
-		cin >> input;
+		getline(cin, input);
 	}
 
 	return input;
 }
 
+//Return a valid year
 int getValidYear(){
 	int year;
 	cout << "Enter Student Year[1-" << MAX_YEAR << "]: ";
@@ -110,6 +114,7 @@ int getValidYear(){
 	return year;
 }
 
+//return a valid gender info
 char getValidGender(){
 	string input;
 	cout << "Enter Student Gender[M/F]: ";
@@ -124,6 +129,7 @@ char getValidGender(){
 	return input[0];
 }
 
+//Return a valid course code
 string getValidCourseCode(){
 	string input;
 
@@ -139,21 +145,24 @@ string getValidCourseCode(){
 	return input;
 }
 
+//return a valid course name
 string getValidCourseName(){
 	string input;
 
 	cout << "Enter Course Name: ";
-	cin >> input;
+	cin.ignore();
+	getline(cin, input);
 
 	while (!isValidCourseName(input)){
 		cout << "Invalid. Please input Course Name again: ";
 		cin.ignore();
-		cin >> input;
+		getline(cin, input);
 	}
 
 	return input;
 }
 
+//return a valid credit
 int getValidCredit(){
 	int credit;
 	cout << "Enter Credit[1-" << MAX_CREDIT << "]: ";
@@ -168,6 +177,7 @@ int getValidCredit(){
 	return credit;
 }
 
+//Return a valid exam mark
 int getValidExamMark(){
 	int mark;
 	cout << "Enter Mark[0-" << MAX_EXAM_MARK << "]: ";

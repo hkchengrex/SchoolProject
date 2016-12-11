@@ -8,6 +8,8 @@
 #include "../data/indexes.h"
 #include "../obj/singleton.h"
 
+//The file stores all the actions to be taken in the menu
+
 void insertStd();
 void modifyStd();
 void deleteStd();

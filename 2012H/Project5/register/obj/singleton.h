@@ -9,6 +9,8 @@
 #include "../data/student.h"
 #include "../data/indexes.h"
 
+//This file is a singleton for managing all the data records
+
 StudentTable& getStdTable();
 CourseTable& getCourseTable();
 

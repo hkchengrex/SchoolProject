@@ -24,6 +24,7 @@ public:
 
 	//Conversion constructor for key only
 	Course(string _code) : code(_code) {}
+	Course() {}
 
 	//Hash function
 	int computeHash(int buckets) const{
@@ -35,7 +36,7 @@ public:
 			if (code[i]<58){
 				mapped = code[i]-48;
 			}else{
-				mapped = code[i]-55;
+				mapped = code[i]-54;
 			}
 
 			sum = (sum + mapped*power) % buckets;

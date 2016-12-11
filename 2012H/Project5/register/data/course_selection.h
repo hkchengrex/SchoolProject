@@ -17,6 +17,7 @@ public:
 
 	CourseSelection (const Student& std, const Course& course, int _mark = UNDEF_EXAM_MARK) : stdID(std.id), code(course.code), mark(_mark) {}
 
+	CourseSelection(int _mark = UNDEF_EXAM_MARK) {}
 
 	//Overloadded operator
 	bool operator==(const CourseSelection& selection) const{

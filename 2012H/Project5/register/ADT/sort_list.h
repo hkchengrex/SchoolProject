@@ -60,6 +60,11 @@ public:
 		_list.remove(item);
 	}
 
+	//Clear all items
+	void clear(){
+		_list.clear();
+	}
+
 	typename list<T>::iterator begin(){
 		return _list.begin();
 	}

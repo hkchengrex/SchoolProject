@@ -57,6 +57,12 @@ public:
 		_vector[item.computeHash(size)].remove(item);
 	}
 
+	void clear(){
+		for (int i=0; i<size; i++){
+			_vector[i].clear();
+		}
+	}
+
 	//An iterator for the hash table
 	class Iterator{
 	private:
