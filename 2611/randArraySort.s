@@ -35,12 +35,17 @@ addi $s1,$zero,10
 # you can use the random_number_generate procedure provided to generate
 # randome numbers, random_number_generate returns the random number in $v1
 array_filling:	
-
-
-
-
-
-
+	add $t0 $zero $s0
+	add $t1 $zero $s1
+	fill_loop_begin:
+		beq $t1 $zero fill_loop_end
+		jal random_number_generate
+		sw $v1 ($t0)
+		
+		addi $t0, $t0, 4
+		addi $t1, $t1, -1
+		j fill_loop_begin
+	fill_loop_end:
 # TODO 1 above
 
 	
@@ -58,26 +63,40 @@ array_filling:
 # write the sort algorithm in MIPS according to the sort() function in the homework description
 # you can add labels as you wish
 
+add $s2, $zero, $s1 # Looper 1
 
+loop_1_begin:
+	beq $s2, $zero, loop_1_end
+	addi $s2, $s2, -1
+	
+	add $t0, $zero, $s0 # Array position
+	add $s3, $zero, $s2 # Looper 2
+	loop_2_begin:
+		beq $s3, $zero, loop_2_end
+		addi $s3, $s3, -1
+	
+		lw $t4 0($t0) #A[j]
+		lw $t5 4($t0) #A[j+1]
+		sltu $t6, $t5, $t4 #$t6 = A[j+1]<A[j]
+		
+		beq $t6, $zero, no_swap
+		xor $t4, $t4, $t5
+		xor $t5, $t4, $t5
+		xor $t4, $t4, $t5
+		
+		sw $t4 0($t0)
+		sw $t5 4($t0)
+		
+		no_swap:
+		
+		addi $t0, $t0, 4
+		j loop_2_begin
+	loop_2_end:
+	
+	j loop_1_begin
+loop_1_end:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+j workdone
 
 
 # TODO 2 above 
