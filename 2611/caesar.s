@@ -56,16 +56,22 @@ Label:	la $a0, msg1
 # you should stop encryption and process the string by putting '\0' (ASCII 0x0) in place of the LineFeed
 # the LineFeed is due to the "Enter" key you pressed when you enter the string
 
-
-
-
-
-
-
-
-
-
-
+la $s1 input
+add $s2 $s1 $zero
+addiu $s4 $zero 0x41 # >= this
+addiu $s5 $zero 26 # Number of characters
+addiu $s6 $zero 0x20 # Space
+addiu $s7 $zero 0x0A # LineFeed
+LoopStart:
+	lbu $a2 ($s2) #t1 contains the origial character
+	beq $a2 $s7 EndLoop
+	jal encrypt
+	sb $v1 ($s2)
+	addi $s2 $s2 1
+	j LoopStart
+EndLoop:
+	addi $s2 $s2 1
+	sb $zero ($s2)
 
 #TODO 1 above
         
@@ -92,7 +98,15 @@ print:
 # assume all characters in the input string are capital characters
 # ASCII code for 'A' is 0x41 ,and for 'Z' is 0x5A
 encrypt:
-
+	beq $a2 $s6 leave
+	sub $a2 $a2 $s4
+	add $a2 $a2 $s0
+	div $a2 $s5
+	mfhi $a2
+	add $a2 $a2 $s4
+leave:
+	add $v1 $a2 $zero
+	jr $ra
 
 
 
