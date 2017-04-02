@@ -38,17 +38,19 @@ input1:
 # if the number is not within the correct range 0-255, display
 # error msg and ask for input again			
 input2:
-
-
-
-
-
-
-
-
-
-
-
+	la $a0, msg1 #prompt user input
+	li $v0, 4
+	syscall
+	
+	li $v0, 5 #get integer in $v0
+	syscall
+	
+	jal checkvalid
+	
+	add $s1, $zero, $v0 #store the second input in $s1
+	bne $zero, $v1, input_correct #input is correct, proceed
+	jal input_error
+	j   input2
 
 #TODO 1 above
 
@@ -75,14 +77,47 @@ input_correct:
 #       syscall
 #Once you are done with all the iterations, output the final product also in hexadecimal form
 
+addi $t0, $zero, 8
+addi $t1, $zero, 1
+LoopStart:
+	beq $t0, $zero, LoopEnd
+	
+	and $t2, $t1, $s1
+	beq $t2, $zero, NoAdd
+	addi $t3, $t0, -8 #t3 is shift amount
+	sub $t3, $zero, $t3 #invert sign
+	
+	sllv $t4, $s0, $t3
+	add $s2, $s2, $t4
+	
+	NoAdd:
+	
+	la $a0, msg3
+	li $v0, 4
+	syscall
+	
+	jal Prints2
+	
+	la $a0, msg4
+	li $v0, 4
+	syscall
+	
+	sll $t1, $t1, 1
+	addi $t0, $t0, -1
+	j LoopStart
 
+LoopEnd:
+	la $a0, msg5
+	li $v0, 4
+	syscall
+	jal Prints2
+	j end
 
-
-
-
-
-
-
+Prints2:
+	add $a0, $zero, $s2
+	li $v0, 34
+	syscall
+	jr $ra
 
 
 #TODO 2 above
