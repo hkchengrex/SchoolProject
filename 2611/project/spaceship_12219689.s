@@ -1,8 +1,8 @@
-#Name:
-#ID:
-#Email:
-#Lab Section:
-#Bonus
+#Name: Cheng Ho Kei
+#ID: 12219689
+#Email: hkchengad@connect.ust.hk
+#Lab Section: LA4
+#Bonus Yes
 
 
 #=====================#
