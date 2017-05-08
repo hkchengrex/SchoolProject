@@ -295,18 +295,6 @@ initgame:
 	sw $t2, 8($t1)
 	sw $s4, 20($t1)
 	
-	bne $s3, 1, DoNotInitSpaceShip
-	#init spaceship
-	la $t0, spaceship
-	la $t1, speed
-	lw $t1, 0($t1)
-	sw $t1, 12($t0)
-	sw $zero, 16($t0)
-	addiu $t1, $zero, 1
-	sw $t1, 8($t0)
-	
-	DoNotInitSpaceShip:
-	
 	#Load $ra from stack
 	lw $ra, 0($sp)
 	addiu $sp, $sp, 4
