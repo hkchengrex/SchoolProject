@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io/ioutil"
 	"math"
@@ -9,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 var averageWindow int
@@ -18,6 +18,9 @@ func main() {
 	inputDir := os.Args[1]
 	averageWindow, _ = strconv.Atoi(os.Args[2])
 	watch, _ = strconv.Atoi(os.Args[3])
+
+	start := time.Now()
+
 	files, err := ioutil.ReadDir(inputDir)
 
 	if err == nil {
@@ -36,10 +39,6 @@ func main() {
 		}
 
 		wg.Wait()
-		fmt.Println("All agents Ready. Press Enter to proceed.")
-
-		enterEater := bufio.NewReader(os.Stdin)
-		enterEater.ReadString('\n')
 
 		//Kickstart
 		iterations := 0
@@ -67,10 +66,31 @@ func main() {
 		}
 		fmt.Printf("All completed.\n")
 
+		finalMoney := make([]float64, len(files))
+		for i := 0; i < len(files); i++ {
+			finalMoney[i] = <-dataSlice[i]
+		}
+
+		outputFile, err := os.Create("." + string(os.PathSeparator) + "output" + string(os.PathSeparator) + strconv.Itoa(averageWindow) + ".csv")
+
+		if err != nil {
+			fmt.Println("Error in creating output file.")
+			panic(err)
+		}
+
+		for i, m := range finalMoney {
+			line := fmt.Sprintf("%d,%.0f\n", i, m)
+			outputFile.WriteString(line)
+		}
+
+		outputFile.Sync()
+
 	} else {
 		fmt.Printf("Failed to look at %v\n", inputDir)
 		panic(err)
 	}
+
+	fmt.Println("Took ", time.Since(start))
 }
 
 func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync.WaitGroup) {
@@ -91,6 +111,9 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 	fmt.Printf("Agent %d ready. Number of data set: %d\n", i, len(lines))
 
 	wg.Done()
+
+	openPrice := 0.0
+	closePrice := 0.0
 
 	for {
 		//Wait for the start signal
@@ -113,8 +136,8 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 			continue
 		}
 
-		openPrice, _ := strconv.ParseFloat(items[2], 64)
-		closePrice, _ := strconv.ParseFloat(items[5], 64)
+		openPrice, _ = strconv.ParseFloat(items[2], 64)
+		closePrice, _ = strconv.ParseFloat(items[5], 64)
 
 		actionTaken := false
 		if day > averageWindow {
@@ -170,4 +193,8 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 		//Show that I'm done and still ok
 		sig <- true
 	}
+
+	//Done. Convert all stocks back to money.
+	money += float64(stock) * closePrice
+	data <- money
 }
