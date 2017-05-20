@@ -1,0 +1,1 @@
+This is made for a statistics project which analyze the profit of a stock market strategy by simulating it in past stock data.
