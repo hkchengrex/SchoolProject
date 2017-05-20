@@ -13,11 +13,13 @@ import (
 
 var averageWindow int
 var watch int
+var tax int
 
 func main() {
 	inputDir := os.Args[1]
 	averageWindow, _ = strconv.Atoi(os.Args[2])
 	watch, _ = strconv.Atoi(os.Args[3])
+	tax, _ = strconv.Atoi(os.Args[4])
 
 	start := time.Now()
 
@@ -67,11 +69,25 @@ func main() {
 		fmt.Printf("All completed.\n")
 
 		finalMoney := make([]float64, len(files))
+		max := 0.0
+		min := 100000000.0
+		mean := 0.0
 		for i := 0; i < len(files); i++ {
 			finalMoney[i] = <-dataSlice[i]
+			if finalMoney[i] > max {
+				max = finalMoney[i]
+			}
+			if finalMoney[i] < min {
+				min = finalMoney[i]
+			}
+			mean += finalMoney[i] / float64(len(files))
 		}
 
-		outputFile, err := os.Create("." + string(os.PathSeparator) + "output" + string(os.PathSeparator) + strconv.Itoa(averageWindow) + ".csv")
+		fmt.Printf("\nMax: %f \nMin: %f \nMean: %f\n", max, min, mean)
+
+		outputFile, err := os.Create("." + string(os.PathSeparator) + "output" +
+			string(os.PathSeparator) + strconv.Itoa(averageWindow) +
+			"_t" + strconv.Itoa(tax) + ".csv")
 
 		if err != nil {
 			fmt.Println("Error in creating output file.")
@@ -139,6 +155,10 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 		openPrice, _ = strconv.ParseFloat(items[2], 64)
 		closePrice, _ = strconv.ParseFloat(items[5], 64)
 
+		//Take the tax into account
+		openPrice *= (1.0 + float64(tax)/1000.0)
+		closePrice *= (1.0 - float64(tax)/1000.0)
+
 		actionTaken := false
 		if day > averageWindow {
 			//Determine buy/sell
@@ -149,6 +169,9 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 
 			//Buy with open price
 			buyTendency := (averagePrice - openPrice) / averagePrice
+			if buyTendency > 1 {
+				buyTendency = 1
+			}
 			if buyTendency*money > openPrice {
 				bought := math.Floor(buyTendency * money / openPrice)
 				money -= bought * openPrice
@@ -161,6 +184,9 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 
 			//Sell with close price
 			sellTendency := (closePrice - averagePrice) / averagePrice
+			if sellTendency > 1 {
+				sellTendency = 1
+			}
 			if sellTendency*float64(stock) > 0 {
 				sold := math.Floor(sellTendency * float64(stock))
 				money += sold * closePrice
