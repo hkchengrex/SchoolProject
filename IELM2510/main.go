@@ -14,6 +14,9 @@ import (
 var averageWindow int
 var watch int
 var tax int
+var enableCompound bool
+
+const baseMoney = 1000000.0
 
 type returnData struct {
 	money      float64
@@ -27,6 +30,7 @@ func main() {
 	averageWindow, _ = strconv.Atoi(os.Args[2])
 	watch, _ = strconv.Atoi(os.Args[3])
 	tax, _ = strconv.Atoi(os.Args[4])
+	enableCompound, _ = strconv.ParseBool(os.Args[5])
 
 	start := time.Now()
 
@@ -92,9 +96,16 @@ func main() {
 
 		fmt.Printf("\nMax: %f \nMin: %f \nMean: %f\n", max, min, mean)
 
-		outputFile, err := os.Create("." + string(os.PathSeparator) + "output" +
-			string(os.PathSeparator) + strconv.Itoa(averageWindow) +
-			"_t" + strconv.Itoa(tax) + ".csv")
+		var outputFile *os.File
+		if enableCompound {
+			outputFile, err = os.Create("." + string(os.PathSeparator) + "output" +
+				string(os.PathSeparator) + strconv.Itoa(averageWindow) +
+				"_c_t" + strconv.Itoa(tax) + ".csv")
+		} else {
+			outputFile, err = os.Create("." + string(os.PathSeparator) + "output" +
+				string(os.PathSeparator) + strconv.Itoa(averageWindow) +
+				"_nc_t" + strconv.Itoa(tax) + ".csv")
+		}
 
 		if err != nil {
 			fmt.Println("Error in creating output file.")
@@ -117,7 +128,7 @@ func main() {
 }
 
 func startStockAgent(i int, f string, sig chan bool, data chan returnData, wg *sync.WaitGroup) {
-	money := 1000000.0
+	money := baseMoney
 	stock := 0
 	day := 0
 	startPrice := 0.0
@@ -184,14 +195,27 @@ func startStockAgent(i int, f string, sig chan bool, data chan returnData, wg *s
 			if buyTendency > 1 {
 				buyTendency = 1
 			}
-			if buyTendency*money > openPrice {
-				bought := math.Floor(buyTendency * money / openPrice)
-				money -= bought * openPrice
-				stock += int(bought)
-				if watch == -1 || watch == i {
-					fmt.Printf("Agent %d bought %d at %v.\n", i, int(bought), openPrice)
+
+			if enableCompound {
+				if buyTendency*money > openPrice {
+					bought := math.Floor(buyTendency * money / openPrice)
+					money -= bought * openPrice
+					stock += int(bought)
+					if watch == -1 || watch == i {
+						fmt.Printf("Agent %d bought %d at %v.\n", i, int(bought), openPrice)
+					}
+					actionTaken = true
 				}
-				actionTaken = true
+			} else {
+				if buyTendency*baseMoney > openPrice {
+					bought := math.Floor(buyTendency * baseMoney / openPrice)
+					money -= bought * openPrice
+					stock += int(bought)
+					if watch == -1 || watch == i {
+						fmt.Printf("Agent %d bought %d at %v.\n", i, int(bought), openPrice)
+					}
+					actionTaken = true
+				}
 			}
 
 			//Sell with close price
@@ -199,6 +223,7 @@ func startStockAgent(i int, f string, sig chan bool, data chan returnData, wg *s
 			if sellTendency > 1 {
 				sellTendency = 1
 			}
+
 			if sellTendency*float64(stock) > 0 {
 				sold := math.Floor(sellTendency * float64(stock))
 				money += sold * closePrice
