@@ -102,7 +102,7 @@ func main() {
 		}
 
 		for i, d := range finalData {
-			line := fmt.Sprintf("%d,%s,%.0f,%f,%f\n", i, d.code, d.money, (d.money-1000000.0)/1000000.0, (d.endPrice-d.startPrice)/d.startPrice)
+			line := fmt.Sprintf("%d,%s,%.0f,%f%%,%f%%\n", i, d.code, d.money, (d.money-1000000.0)/1000000.0, (d.endPrice-d.startPrice)/d.startPrice)
 			outputFile.WriteString(line)
 		}
 
