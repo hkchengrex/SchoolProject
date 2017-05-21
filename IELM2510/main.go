@@ -15,6 +15,13 @@ var averageWindow int
 var watch int
 var tax int
 
+type returnData struct {
+	money      float64
+	code       string
+	startPrice float64
+	endPrice   float64
+}
+
 func main() {
 	inputDir := os.Args[1]
 	averageWindow, _ = strconv.Atoi(os.Args[2])
@@ -29,12 +36,12 @@ func main() {
 		fmt.Printf("Looking for files in %v... %d Found.\n", inputDir, len(files))
 
 		controlSigSlice := make([]chan bool, len(files))
-		dataSlice := make([]chan float64, len(files))
+		dataSlice := make([]chan returnData, len(files))
 		var wg sync.WaitGroup
 
 		for i, f := range files {
 			controlSigSlice[i] = make(chan bool)
-			dataSlice[i] = make(chan float64)
+			dataSlice[i] = make(chan returnData)
 			fmt.Printf("Eating the %dth file. %v.\n", i, f.Name())
 			wg.Add(1)
 			go startStockAgent(i, inputDir+string(os.PathSeparator)+f.Name(), controlSigSlice[i], dataSlice[i], &wg)
@@ -68,19 +75,19 @@ func main() {
 		}
 		fmt.Printf("All completed.\n")
 
-		finalMoney := make([]float64, len(files))
+		finalData := make([]returnData, len(files))
 		max := 0.0
 		min := 100000000.0
 		mean := 0.0
 		for i := 0; i < len(files); i++ {
-			finalMoney[i] = <-dataSlice[i]
-			if finalMoney[i] > max {
-				max = finalMoney[i]
+			finalData[i] = <-dataSlice[i]
+			if finalData[i].money > max {
+				max = finalData[i].money
 			}
-			if finalMoney[i] < min {
-				min = finalMoney[i]
+			if finalData[i].money < min {
+				min = finalData[i].money
 			}
-			mean += finalMoney[i] / float64(len(files))
+			mean += finalData[i].money / float64(len(files))
 		}
 
 		fmt.Printf("\nMax: %f \nMin: %f \nMean: %f\n", max, min, mean)
@@ -94,8 +101,8 @@ func main() {
 			panic(err)
 		}
 
-		for i, m := range finalMoney {
-			line := fmt.Sprintf("%d,%.0f\n", i, m)
+		for i, d := range finalData {
+			line := fmt.Sprintf("%d,%s,%.0f,%f,%f\n", i, d.code, d.money, (d.money-1000000.0)/1000000.0, (d.endPrice-d.startPrice)/d.startPrice)
 			outputFile.WriteString(line)
 		}
 
@@ -109,10 +116,11 @@ func main() {
 	fmt.Println("Took ", time.Since(start))
 }
 
-func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync.WaitGroup) {
+func startStockAgent(i int, f string, sig chan bool, data chan returnData, wg *sync.WaitGroup) {
 	money := 1000000.0
 	stock := 0
 	day := 0
+	startPrice := 0.0
 
 	movingAverage := make([]float64, averageWindow)
 	movingPointer := 0
@@ -154,6 +162,10 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 
 		openPrice, _ = strconv.ParseFloat(items[2], 64)
 		closePrice, _ = strconv.ParseFloat(items[5], 64)
+
+		if startPrice == 0 {
+			startPrice = openPrice
+		}
 
 		//Take the tax into account
 		openPrice *= (1.0 + float64(tax)/1000.0)
@@ -222,5 +234,9 @@ func startStockAgent(i int, f string, sig chan bool, data chan float64, wg *sync
 
 	//Done. Convert all stocks back to money.
 	money += float64(stock) * closePrice
-	data <- money
+
+	lastIndex := strings.LastIndex(f, "_")
+	stockCode := f[lastIndex+1 : len(f)-4]
+
+	data <- returnData{money: money, code: stockCode, startPrice: startPrice, endPrice: closePrice}
 }
