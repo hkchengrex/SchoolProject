@@ -102,7 +102,7 @@ func main() {
 		}
 
 		for i, d := range finalData {
-			line := fmt.Sprintf("%d,%s,%.0f,%f%%,%f%%\n", i, d.code, d.money, (d.money-1000000.0)/1000000.0, (d.endPrice-d.startPrice)/d.startPrice)
+			line := fmt.Sprintf("%d,%s,%.0f,%f%%,%f%%\n", i, d.code, d.money, (d.money-1000000.0)/1000000.0*100, (d.endPrice-d.startPrice)/d.startPrice*100)
 			outputFile.WriteString(line)
 		}
 
@@ -238,5 +238,8 @@ func startStockAgent(i int, f string, sig chan bool, data chan returnData, wg *s
 	lastIndex := strings.LastIndex(f, "_")
 	stockCode := f[lastIndex+1 : len(f)-4]
 
+	if watch == -1 || watch == i {
+		fmt.Printf("S: %f E: %f\n", startPrice, closePrice)
+	}
 	data <- returnData{money: money, code: stockCode, startPrice: startPrice, endPrice: closePrice}
 }
