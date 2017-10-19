@@ -1,0 +1,9 @@
+Output 3 let thread 2 modifies global first then thread 1, therefore global is 5 then 8.
+Output 4 let thread 1 modifies global first then thread 2, therefore global is 4 then 20.
+Output 5 let thread 1 give up CPU for thread 2 to modify global first then thread 1, therefore global is 5 then 8.
+
+For output 3, the reason is that we called th1->Suspend() before thread 1 before thread 1 has a chance to modify global, and would only resume thread 1 after thread 2 has modified global. Therefore thread 2 will always be the first one to modift global.
+
+For output 4, the reason is just the opposite, thread 1 bring thread 2 into suspension, and would only resume it back when thread 1 has modified  global.
+
+For output 5, just before thread 1 is about to modify global, yield was called on thread 1 for it to relinquish CPU, so that thread 2 has the chance to modify global first. 
