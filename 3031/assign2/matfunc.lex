@@ -16,14 +16,28 @@ void RmWs(char* str);
 ws [ \t]+
 digits [0-9]
 number [\-]?(0|([1-9]+{digits}*))
+
  /************* Start: add your definitions here*/
 
+enumber [ \t]*{number}[ \t]*
+pnumber [ \t]*,[ \t]*{enumber}[ \t]*
+row [ \t]*\[{enumber}{pnumber}*\][ \t]*
+prow [ \t]*,[ \t]*{row}[ \t]*
+mat [ \t]*\[{row}{prow}*\]
+op [ \t]*(\+|\*|\/|-|REV|NEG|\(|\))
+
  /************* End: add your definitions here */
+
 %%
 \n return *yytext;
+
  /* Start: add your rules here*/
 
+{mat} RmWs(yytext); yylval=(char*)malloc(sizeof(char)*MAXL); strcpy(yylval, yytext); return MAT;
+{op} RmWs(yytext); return *yytext;
+
  /* End: add your rules here*/
+
 {ws}
 %%
 

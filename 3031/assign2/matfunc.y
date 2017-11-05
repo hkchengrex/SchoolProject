@@ -43,11 +43,19 @@ input: input line
 	;
 
 line: 	'\n'
-        | expr '\n' {printf("res %s\n",$1);OutputRes($1);}
+        | expr '\n' {printf("res %s\n", $1);OutputRes($1);}
 	;
 
 // start of your grammar rules and actions 
 
+expr: MAT { $$ = $1; }
+	| expr '+' expr { $$ = Add($1, $3); }
+	| expr '-' expr { $$ = Minus($1, $3); }
+	| expr '*' expr { $$ = Dot($1, $3); }
+	| expr '/' expr { $$ = Div($1, $3); }
+	| 'R' 'E' 'V' expr { $$ = Rev($4); }
+	| 'N' 'E' 'G' expr { $$ = Neg($4); }
+	| '(' expr ')' { $$ = $2; };
 
 
 // end of your grammar rules and actions
@@ -56,7 +64,7 @@ line: 	'\n'
 #include<ctype.h>
 int main(int argc, char *argv[]){
 	// If input from command line, use this
-//	return yyparse();
+	return yyparse();
 	// If input from file, comment out above line
 	// clear the result file
 	FILE *fp = fopen("results.txt","w");
