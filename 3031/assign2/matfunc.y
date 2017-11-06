@@ -48,15 +48,24 @@ line: 	'\n'
 
 // start of your grammar rules and actions 
 
-expr: MAT { $$ = $1; }
-	| expr '+' expr { $$ = Add($1, $3); }
-	| expr '-' expr { $$ = Minus($1, $3); }
-	| expr '*' expr { $$ = Dot($1, $3); }
-	| expr '/' expr { $$ = Div($1, $3); }
-	| 'R' 'E' 'V' expr { $$ = Rev($4); }
-	| 'N' 'E' 'G' expr { $$ = Neg($4); }
-	| '(' expr ')' { $$ = $2; };
+expr: expr '+' exp2 { $$ = Add($1, $3); }
+	| expr '-' exp2 { $$ = Minus($1, $3); }
+	| exp2 { $$ = $1; }
+	;
 
+exp2: exp2 '*' exp3 { $$ = Dot($1, $3); }
+	| exp2 '/' exp3 { $$ = Div($1, $3); }
+	| exp3 { $$ = $1; }
+	;
+
+exp3: REV exp3 { $$ = Rev($2); }
+	| NEG exp3 { $$ = Neg($2); }
+	| exp4 { $$ = $1; }
+	;
+
+exp4: MAT { $$ = $1; }
+	| '(' expr ')' { $$ = $2; }
+	;
 
 // end of your grammar rules and actions
 
@@ -64,7 +73,7 @@ expr: MAT { $$ = $1; }
 #include<ctype.h>
 int main(int argc, char *argv[]){
 	// If input from command line, use this
-	return yyparse();
+	//return yyparse();
 	// If input from file, comment out above line
 	// clear the result file
 	FILE *fp = fopen("results.txt","w");

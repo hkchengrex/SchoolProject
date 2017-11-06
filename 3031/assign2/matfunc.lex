@@ -24,7 +24,9 @@ pnumber [ \t]*,[ \t]*{enumber}[ \t]*
 row [ \t]*\[{enumber}{pnumber}*\][ \t]*
 prow [ \t]*,[ \t]*{row}[ \t]*
 mat [ \t]*\[{row}{prow}*\]
-op [ \t]*(\+|\*|\/|-|REV|NEG|\(|\))
+op [ \t]*(\+|\*|\/|-|\(|\))
+rev [ \t]*REV
+neg [ \t]*NEG
 
  /************* End: add your definitions here */
 
@@ -35,6 +37,8 @@ op [ \t]*(\+|\*|\/|-|REV|NEG|\(|\))
 
 {mat} RmWs(yytext); yylval=(char*)malloc(sizeof(char)*MAXL); strcpy(yylval, yytext); return MAT;
 {op} RmWs(yytext); return *yytext;
+{rev} RmWs(yytext); return REV;
+{neg} RmWs(yytext); return NEG;
 
  /* End: add your rules here*/
 
