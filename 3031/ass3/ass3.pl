@@ -7,6 +7,7 @@ teach(p02, [c23]).
 teach(p03, [c10]).
 teach(p04, []).
 
-enroll_part(X, Y) :- enroll(X, [ _ | Y | _]).
+member(X, [X|_]).
+member(X, [_|Tail]) :- member(X, Tail).
 
-prof_ids(X, Y) :- enroll(X, Z).
+prof_ids(X, L) :- enroll(X, Z), teach(L, Y), member(C, Y), member(C, Z).
