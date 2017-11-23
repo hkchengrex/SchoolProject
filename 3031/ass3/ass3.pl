@@ -1,18 +1,29 @@
 enroll(1701, [c01, c10]).
 enroll(1602, [c21]).
-enroll(1711, [c01, c32, c10]).
+enroll(1711, [c01, c21, c10]).
 enroll(1501, []).
 teach(p01, [c01, c21]).
 teach(p02, [c23]).
 teach(p03, [c10]).
 teach(p04, []).
 
+stu_list(List) :- findall(X, teach(X, _), List).
+pro_list(List) :- findall(X, teach(X, _), List).
+
 member(X, [X|_]).
 member(X, [_|Tail]) :- member(X, Tail).
 
-incourse(X, Y) :- enroll(X, Z), member(Y, Z). % Student X has enrolled course Y
-teach_course(X, Y) :- teach(X, Z), member(Y, Z). % Professor X teaches course Y
+head(X, [X|_]).
+tail(X, [_|X]).
 
-teach_std(X, Y) :- teach_course(X, Z), incourse(Y, Z). % Professor X teaches student Y
+incourse(Stu, Cou) :- enroll(Stu, List), member(Cou, List), !.
+teach_course(Pro, Cou) :- teach(Pro, List), member(Cou, List), !.
+teach_std(Pro, Stu) :- teach_course(Pro, Cou), incourse(Stu, Cou), !. 
 
-prof_ids(X, Y) :- teach_std(X, Y).
+teach_coulist(Pro, CouList) :- member(X, CouList), teach_course(Pro, X), !.
+
+list_prof_ids(CouList, [Head|ResTail], [Head|ProTail]) :- teach_coulist(Head, CouList), list_prof_ids(CouList, ResTail, ProTail), !.
+list_prof_ids(CouList, ResList, [ProHead|ProTail]) :- \+ teach_coulist(ProHead, CouList),  list_prof_ids(CouList, ResList, ProTail), !.
+list_prof_ids(_, [], []) :- !.
+
+prof_ids(Stu, List) :- enroll(Stu, CouList), pro_list(ProList), list_prof_ids(CouList, List, ProList).
