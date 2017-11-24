@@ -8,10 +8,6 @@ teach(p03, [c10]).
 teach(p04, []).
 
 %% Helper functions
-
-stu_list(List) :- findall(X, enroll(X, _), List).
-pro_list(List) :- findall(X, teach(X, _), List).
-
 member(X, [X|_]).
 member(X, [_|Tail]) :- member(X, Tail).
 
@@ -21,6 +17,15 @@ tail(X, [_|X]).
 incourse(Stu, Cou) :- enroll(Stu, List), member(Cou, List), !.
 teach_course(Pro, Cou) :- teach(Pro, List), member(Cou, List), !.
 teach_std(Pro, Stu) :- teach_course(Pro, Cou), incourse(Stu, Cou), !. 
+
+stu_list(List) :- findall(X, enroll(X, _), List).
+pro_list(List) :- findall(X, teach(X, _), List).
+cou_raw_list(List) :- findall(X, teach(_, X), List).
+
+cou_temp_list([ResHead|ResTail], [ProHead|ProTail]) :- teach(ProHead, ResHead), cou_temp_list(ResTail, ProTail).
+cou_temp_list([], _).
+
+cou_list(List) :- pro_list(ProList), cou_temp_list(TempList, ProList), flatten(TempList, List), !.
 
 %% teach_coulist(Pro, CouList) :- member(X, CouList), teach_course(Pro, X), !.
 
@@ -55,8 +60,18 @@ common_enroll(StuA, StuB, List) :- \+ var(StuA), \+ var(StuB), \+ var(List), enr
 in_coulist(Std, CouList) :- member(X, CouList), incourse(Std, X), !.
 
 list_std_ids(CouList, [Head|ResTail], [Head|StdTail]) :- in_coulist(Head, CouList), list_std_ids(CouList, ResTail, StdTail), !.
-list_std_ids(CouList, ResList, [StdHead|StdTail]) :- list_std_ids(CouList, ResList, StdTail), !.
+list_std_ids(CouList, ResList, [_|StdTail]) :- list_std_ids(CouList, ResList, StdTail), !.
 list_std_ids(_, [], _) :- !.
 
 student_list(Pro, List) :- \+ var(List), permutation(List, PerRes), teach(Pro, CouList), stu_list(StuList), list_std_ids(CouList, PerRes, StuList), !.
 student_list(Pro, List) :- var(List), teach(Pro, CouList), stu_list(StuList), list_std_ids(CouList, List, StuList).
+
+%Question 4
+subset([], []) :- !.
+subset([Head|SubTail], [Head|MainTail]) :- subset(SubTail, MainTail).
+subset([SubHead|Tail], [MainHead|Tail]) :- subset(SubHead, MainHead).
+subset(SubList, [_|MainTail]) :- subset(SubList, MainTail).
+subset(SubList, [MainHead|_]) :- subset(SubList, MainHead).
+
+course_list(List) :- \+ var(List), permutation(List, PerRes), cou_list(MainList), subset(PerRes, MainList), !.
+course_list(List) :- var(List), cou_list(List), !.
