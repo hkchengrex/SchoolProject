@@ -22,8 +22,14 @@ teach_std(Pro, Stu) :- teach_course(Pro, Cou), incourse(Stu, Cou), !.
 
 teach_coulist(Pro, CouList) :- member(X, CouList), teach_course(Pro, X), !.
 
-list_prof_ids(CouList, [Head|ResTail], [Head|ProTail]) :- teach_coulist(Head, CouList), list_prof_ids(CouList, ResTail, ProTail), !.
-list_prof_ids(CouList, ResList, [ProHead|ProTail]) :- \+ teach_coulist(ProHead, CouList),  list_prof_ids(CouList, ResList, ProTail), !.
-list_prof_ids(_, [], []) :- !.
+dis_list_prof_ids(CouList, [Head|ResTail], [Head|ProTail]) :- teach_coulist(Head, CouList), dis_list_prof_ids(CouList, ResTail, ProTail), !.
+dis_list_prof_ids(CouList, ResList, [ProHead|ProTail]) :- \+ teach_coulist(ProHead, CouList),  dis_list_prof_ids(CouList, ResList, ProTail), !.
+dis_list_prof_ids(_, [], []) :- !.
 
-prof_ids(Stu, List) :- enroll(Stu, CouList), pro_list(ProList), list_prof_ids(CouList, List, ProList).
+% I did not read the question well and I made a distinct version... It works, so I'll just keep it here
+distinct_prof_ids(Stu, List) :- enroll(Stu, CouList), pro_list(ProList), dis_list_prof_ids(CouList, List, ProList).
+
+list_prof_ids([CouHead|CouTail], [ResHead|ResTail]) :- teach_course(ResHead, CouHead), list_prof_ids(CouTail, ResTail), !.
+list_prof_ids([], []) :- !.
+
+prof_ids(Stu, List) :- enroll(Stu, CouList), list_prof_ids(CouList, List).
