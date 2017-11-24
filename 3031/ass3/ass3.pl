@@ -7,14 +7,13 @@ teach(p02, [c23]).
 teach(p03, [c10]).
 teach(p04, []).
 
-stu_list(List) :- findall(X, teach(X, _), List).
+%% Helper functions
+
+stu_list(List) :- findall(X, enroll(X, _), List).
 pro_list(List) :- findall(X, teach(X, _), List).
 
 member(X, [X|_]).
 member(X, [_|Tail]) :- member(X, Tail).
-
-%% member_sp(X, [X|_]) :- !.
-%% member_sp(X, [_|Tail]) :- member_sp(X, Tail), !.
 
 head(X, [X|_]).
 tail(X, [_|X]).
@@ -23,14 +22,14 @@ incourse(Stu, Cou) :- enroll(Stu, List), member(Cou, List), !.
 teach_course(Pro, Cou) :- teach(Pro, List), member(Cou, List), !.
 teach_std(Pro, Stu) :- teach_course(Pro, Cou), incourse(Stu, Cou), !. 
 
-teach_coulist(Pro, CouList) :- member(X, CouList), teach_course(Pro, X), !.
+%% teach_coulist(Pro, CouList) :- member(X, CouList), teach_course(Pro, X), !.
 
-dis_list_prof_ids(CouList, [Head|ResTail], [Head|ProTail]) :- teach_coulist(Head, CouList), dis_list_prof_ids(CouList, ResTail, ProTail), !.
-dis_list_prof_ids(CouList, ResList, [ProHead|ProTail]) :- \+ teach_coulist(ProHead, CouList),  dis_list_prof_ids(CouList, ResList, ProTail), !.
-dis_list_prof_ids(_, [], []) :- !.
+%% dis_list_prof_ids(CouList, [Head|ResTail], [Head|ProTail]) :- teach_coulist(Head, CouList), dis_list_prof_ids(CouList, ResTail, ProTail), !.
+%% dis_list_prof_ids(CouList, ResList, [ProHead|ProTail]) :- \+ teach_coulist(ProHead, CouList),  dis_list_prof_ids(CouList, ResList, ProTail), !.
+%% dis_list_prof_ids(_, [], []) :- !.
 
-% I did not read the question well and I made a distinct version... It works, so I'll just keep it here
-distinct_prof_ids(Stu, List) :- enroll(Stu, CouList), pro_list(ProList), dis_list_prof_ids(CouList, List, ProList).
+%% % I did not read the question well and I made a distinct version... It works, so I'll just keep it here
+%% distinct_prof_ids(Stu, List) :- enroll(Stu, CouList), pro_list(ProList), dis_list_prof_ids(CouList, List, ProList).
 
 % Question 1
 list_prof_ids([CouHead|CouTail], [ResHead|ResTail]) :- teach_course(ResHead, CouHead), list_prof_ids(CouTail, ResTail), !.
@@ -52,3 +51,12 @@ common_enroll(StuA, StuB, List) :- \+ var(StuA), \+ var(StuB), \+ var(List), enr
 	permutation(List, PerRes), cou_list_com(CouA, CouB, PerRes), StuA \== StuB, !.
 
 
+% Question 3
+in_coulist(Std, CouList) :- member(X, CouList), incourse(Std, X), !.
+
+list_std_ids(CouList, [Head|ResTail], [Head|StdTail]) :- in_coulist(Head, CouList), list_std_ids(CouList, ResTail, StdTail), !.
+list_std_ids(CouList, ResList, [StdHead|StdTail]) :- list_std_ids(CouList, ResList, StdTail), !.
+list_std_ids(_, [], _) :- !.
+
+student_list(Pro, List) :- \+ var(List), permutation(List, PerRes), teach(Pro, CouList), stu_list(StuList), list_std_ids(CouList, PerRes, StuList), !.
+student_list(Pro, List) :- var(List), teach(Pro, CouList), stu_list(StuList), list_std_ids(CouList, List, StuList).
