@@ -1,0 +1,63 @@
+# Q1
+
+## Q1.1 - Average waiting time
+
+For FCFS, average waiting time is: 
+(0+7+14+34+38)/5 = 16.6
+
+For SJF, average waiting time is:
+(0+7+9+13+32)/5 = 12.2
+
+For NP_Prioity, average waiting time is:
+(0+7+9+13+32)/5 = 12.2
+
+For Priority, average waiting time is:
+(0+29+19+32+0+4)/5 = 16.8
+
+## Q1.2 - Average response time
+
+For FCFS, average response time is:
+(0+7+14+34+38)/5 = 16.6
+
+For SJF, average response time is:
+(0+7+9+13+32)/5 = 12.2
+
+For NP_Prioity, average response time is:
+(0+7+9+13+32)/5 = 12.2
+
+For Priority, average response time is:
+(0+0+32+0+4)/5 = 7.2
+
+## Q1.3 - Average turn-around time
+
+For FCFS, average turn-around time is: 
+(0+7+14+34+38 + 25+17+12+6+10)/5 = 30.6
+
+For SJF, average turn-around time is:
+(0+7+9+13+32 + 25+17+12+6+10)/5 = 26.2
+
+For NP_Prioity, average turn-around time is:
+(0+7+9+13+32 + 25+17+12+6+10)/5 = 26.2
+
+For Priority, average turn-around time is:
+(0+29+19+32+0+4 + 25+17+12+6+10)/5 = 30.8
+
+# Q2
+From Q1, it is seen that the SJF scheduling algorithm outperforms FCFS in all average waiting time, average response time and average turn-around time. This is because SJF will place the shortest job first and let them finish first. On the other head, FCFS might keep short jobs waiting which increase the waiting time, response time and turn-around time although they can be finished easily.
+
+The pros of FCFS is that it is simple and does not lead to starvation. 
+The cons of FCFS is that long-running jobs will use the processor for too long, causing the convoy effect. When the input is changed such that the first process has a long burst time and the rest have small burst time, the long-running first job will block the processor for a long time before the small burst time items can be processed.
+
+The pros of SJF is that it does not cause the convoy effect.
+The cons of SJF is that the burst time is difficult to estimate and that it might cause starvation. When the input is changed such that the second job has a long burst time and the rest have moderate burst time, it is found that the long burst time second job does not get any of the processor time until every other processes have finished running. It causes a long waiting time, response time and turn-around time for this single job, and it might be starved when shorter processes keep entering the ready queue. 
+
+#Q3
+The average waiting time and average turn-around time for NP_Priority scheduling is shorter than that of Priority scheduling, while the average response time of Priority scheduling is shorter than that of NP_Priority scheduling.
+
+Since Priority is preemptive while NP_Priority is not, when a new job with priority higher than the current running process enters the ready queue, it will be ran immediately by Priority but not by NP_Priority. In this way, jobs in Priority have lower average response time since high priority jobs response instantly. However, this also means that the job that was running will be paused and will have to wait. This causes higher average waiting time and average turn-around time since more processes are waiting. If higher priority jobs kept entering the ready queue without allowing the current running job to finish, there will be a lot of processes waiting in the Priority scheduling. The same would not happen in NP_Priority, since the current running job has to finish first.
+
+The pros of NP_Priority is that it perform less context switching and has less overhead.
+The cons of NP_Priority is that high priority jobs entering the ready queue cannot be handled immediately if there is a current running job. This means that the response time for high priority job is not as low.
+
+The pros of Priority is that high priority job can be ran immediately, having zero response time.
+The cons of Priority is that it performs more context switching and has more overhead. As the current job might be preempted and be ran again later, context switches will happen much more often and it introduces overhead to the system.
