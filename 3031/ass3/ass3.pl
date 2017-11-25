@@ -78,12 +78,11 @@ course_list(List) :- var(List), cou_list(List), !.
 
 
 %Question 5
+incourse_s(Stu, Cou) :- enroll(Stu, List), member(Cou, List), !.
 
-incourse_s(Stu, Cou) :- enroll(Stu, List), member(Cou, List).
-
-acc_stu(Cou, Num, [StuHead|StuTail]) :- incourse_s(StuHead, Cou), acc_stu(Cou, Num2, StuTail), Num is Num2+1.
-acc_stu(Cou, Num, [StuHead|StuTail]) :- \+ incourse_s(StuHead, Cou), acc_stu(Cou, Num, StuTail).
-acc_stu(_, 0, []).
+acc_stu(Cou, Num, [StuHead|StuTail]) :- incourse_s(StuHead, Cou), acc_stu(Cou, Num2, StuTail), Num is Num2+1, !.
+acc_stu(Cou, Num, [StuHead|StuTail]) :- \+ incourse_s(StuHead, Cou), acc_stu(Cou, Num, StuTail), !.
+acc_stu(_, 0, []) :- !.
 
 count_students(Cou, Num) :- \+ var(Cou), stu_list(StuList), acc_stu(Cou, Num, StuList), !.
-count_students(Cou, Num) :- var(Cou), stu_list(StuList), acc_stu(Cou, Num, StuList).
+count_students(Cou, Num) :- var(Cou), cou_list(CouList), member(Cou, CouList), stu_list(StuList), acc_stu(Cou, Num, StuList).
