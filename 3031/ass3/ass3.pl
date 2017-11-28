@@ -84,5 +84,9 @@ acc_stu(Cou, Num, [StuHead|StuTail]) :- incourse_s(StuHead, Cou), acc_stu(Cou, N
 acc_stu(Cou, Num, [StuHead|StuTail]) :- \+ incourse_s(StuHead, Cou), acc_stu(Cou, Num, StuTail), !.
 acc_stu(_, 0, []) :- !.
 
+member_s(X, [X]) :- !.
+member_s(X, [X|_]).
+member_s(X, [_|Tail]) :- member_s(X, Tail).
+
 count_students(Cou, Num) :- \+ var(Cou), stu_list(StuList), acc_stu(Cou, Num, StuList), !.
-count_students(Cou, Num) :- var(Cou), cou_list(CouList), member(Cou, CouList), stu_list(StuList), acc_stu(Cou, Num, StuList).
+count_students(Cou, Num) :- var(Cou), cou_list(CouList), member_s(Cou, CouList), stu_list(StuList), acc_stu(Cou, Num, StuList).
