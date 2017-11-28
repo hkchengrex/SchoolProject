@@ -3,7 +3,7 @@
 ## Q1.1 - Average waiting time
 
 For FCFS, average waiting time is: 
-(0+7+14+34+38)/5 = 16.6
+(0+7+14+34+38)/5 = 18.6
 
 For SJF, average waiting time is:
 (0+7+9+13+32)/5 = 12.2
@@ -17,7 +17,7 @@ For Priority, average waiting time is:
 ## Q1.2 - Average response time
 
 For FCFS, average response time is:
-(0+7+14+34+38)/5 = 16.6
+(0+7+14+34+38)/5 = 18.6
 
 For SJF, average response time is:
 (0+7+9+13+32)/5 = 12.2
@@ -31,7 +31,7 @@ For Priority, average response time is:
 ## Q1.3 - Average turn-around time
 
 For FCFS, average turn-around time is: 
-(0+7+14+34+38 + 25+17+12+6+10)/5 = 30.6
+(0+7+14+34+38 + 25+17+12+6+10)/5 = 32.6
 
 For SJF, average turn-around time is:
 (0+7+9+13+32 + 25+17+12+6+10)/5 = 26.2
