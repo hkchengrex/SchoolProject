@@ -14,15 +14,13 @@ figure; hold on;
 
 
 
-
-
-
-
-
-
 % =========================================================================
 
+positive = find(y == 1);
+negative = find(y == 0);
 
+plot(X(positive, 1), X(positive, 2), '+', 'LineWidth', 2, 'MarkerSize', 7);
+plot(X(negative, 1), X(negative, 2), 'o', 'MarkerFaceColor', 'y', 'MarkerSize', 7);
 
 hold off;
 
