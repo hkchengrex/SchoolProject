@@ -62,23 +62,55 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Convert y to binary labels
+% Cannot find a way to do it without for loop...
+ry = zeros(num_labels, m);
+for i = 1:m
+    ry(y(i), i) = 1;
+end
 
+% Forward prop
+z1 = Theta1 * ([ones(m, 1), X])';
+a1 = sigmoid(z1);
 
+z2 = Theta2 * [ones(1, m); a1];
+a2 = sigmoid(z2);
 
+% Cost
+J = sum(sum(-ry .* log(a2) - (1-ry) .* log(1 - a2))) / m;
 
+% Regularize the cost
+th1 = Theta1(:, 2:end) .^ 2;
+th2 = Theta2(:, 2:end) .^ 2;
+J = J + (sum(sum(th1)) + sum(sum(th2)))*lambda/2/m;
 
+% Run BP
+a1 = [ones(1, m); a1];
 
+e3 = a2 - ry;
+e2 = (Theta2' * e3);
+e2 = e2(2:end, :); % Remove error 0
+e2 = e2 .* sigmoidGradient(z1);
 
+a0 = [ones(m, 1), X];
+% Big delta
+d1 = e2 * a0;
+d2 = e3 * a1';
 
+% d1 = [zeros(size(d1, 1), 1), d1];
+% d2 = [zeros(size(d2, 1), 1), d2];
 
+Theta1_grad = d1/m;
+Theta2_grad = d2/m;
 
+reg_th1 = Theta1(:, 2:end) * lambda / m;
+reg_th2 = Theta2(:, 2:end) * lambda / m;
 
+reg_th1 = [zeros(size(reg_th1, 1), 1), reg_th1];
+reg_th2 = [zeros(size(reg_th2, 1), 1), reg_th2];
 
-
-
-
-
-
+Theta1_grad = Theta1_grad + reg_th1;
+Theta2_grad = Theta2_grad + reg_th2;
 
 % -------------------------------------------------------------
 
@@ -86,6 +118,5 @@ Theta2_grad = zeros(size(Theta2));
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
